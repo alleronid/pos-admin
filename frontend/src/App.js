@@ -5,6 +5,7 @@ import HeroSection from './components/HeroSection';
 import BrandStory from './components/BrandStory';
 import Features from './components/Features';
 import ProductShowcase from './components/ProductShowcase';
+import Pricing from './components/Pricing';
 import TargetMarket from './components/TargetMarket';
 import Advantages from './components/Advantages';
 import CTASection from './components/CTASection';
@@ -18,6 +19,7 @@ function App() {
       <BrandStory />
       <Features />
       <ProductShowcase />
+      <Pricing />
       <TargetMarket />
       <Advantages />
       <CTASection />
