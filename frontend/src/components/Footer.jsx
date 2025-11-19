@@ -24,14 +24,16 @@ const Footer = () => {
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '1rem' }}>
               <img
-                src="https://customer-assets.emergentagent.com/job_0cb1f9a2-4609-4da6-8470-d381af0fb9b3/artifacts/ib5ee0th_Mirra%20Icon%20Play%20store.png"
+                src="https://customer-assets.emergentagent.com/job_0cb1f9a2-4609-4da6-8470-d381af0fb9b3/artifacts/1vv6e1dw_Untitled%20design%20%2836%29.png"
                 alt="Mirra Logo"
-                style={{ height: '36px', width: 'auto' }}
+                style={{ height: '48px', width: 'auto' }}
               />
-              <span style={{ fontSize: '1.5rem', fontWeight: '700' }}>Mirra</span>
             </div>
+            <p style={{ fontSize: '1rem', color: 'rgba(255, 255, 255, 0.8)', lineHeight: '1.6', fontWeight: '500', marginBottom: '0.5rem' }}>
+              Teman setia usaha anda
+            </p>
             <p style={{ fontSize: '0.95rem', color: 'rgba(255, 255, 255, 0.7)', lineHeight: '1.6' }}>
-              Teman setia usaha Anda. Solusi POS terpercaya untuk UMKM Indonesia.
+              Solusi POS terpercaya untuk UMKM Indonesia.
             </p>
             <div style={{ display: 'flex', gap: '1rem', marginTop: '1.5rem' }}>
               <a
