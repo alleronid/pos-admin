@@ -113,11 +113,16 @@ const Footer = () => {
               <li>
                 <a
                   href="#fitur"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById('fitur')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
                   style={{
                     color: 'rgba(255, 255, 255, 0.7)',
                     textDecoration: 'none',
                     fontSize: '0.95rem',
                     transition: 'color 0.2s ease',
+                    cursor: 'pointer',
                   }}
                   onMouseEnter={(e) => (e.target.style.color = 'var(--color-primary)')}
                   onMouseLeave={(e) => (e.target.style.color = 'rgba(255, 255, 255, 0.7)')}
@@ -128,11 +133,16 @@ const Footer = () => {
               <li>
                 <a
                   href="#harga"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById('harga')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
                   style={{
                     color: 'rgba(255, 255, 255, 0.7)',
                     textDecoration: 'none',
                     fontSize: '0.95rem',
                     transition: 'color 0.2s ease',
+                    cursor: 'pointer',
                   }}
                   onMouseEnter={(e) => (e.target.style.color = 'var(--color-primary)')}
                   onMouseLeave={(e) => (e.target.style.color = 'rgba(255, 255, 255, 0.7)')}
@@ -142,17 +152,22 @@ const Footer = () => {
               </li>
               <li>
                 <a
-                  href="#integrasi"
+                  href="#keunggulan"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById('keunggulan')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
                   style={{
                     color: 'rgba(255, 255, 255, 0.7)',
                     textDecoration: 'none',
                     fontSize: '0.95rem',
                     transition: 'color 0.2s ease',
+                    cursor: 'pointer',
                   }}
                   onMouseEnter={(e) => (e.target.style.color = 'var(--color-primary)')}
                   onMouseLeave={(e) => (e.target.style.color = 'rgba(255, 255, 255, 0.7)')}
                 >
-                  Integrasi QRIS
+                  Keunggulan
                 </a>
               </li>
             </ul>
