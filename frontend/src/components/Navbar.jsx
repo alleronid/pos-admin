@@ -40,13 +40,10 @@ const Navbar = () => {
           {/* Logo */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <img
-              src="https://customer-assets.emergentagent.com/job_0cb1f9a2-4609-4da6-8470-d381af0fb9b3/artifacts/ib5ee0th_Mirra%20Icon%20Play%20store.png"
+              src="https://customer-assets.emergentagent.com/job_0cb1f9a2-4609-4da6-8470-d381af0fb9b3/artifacts/1vv6e1dw_Untitled%20design%20%2836%29.png"
               alt="Mirra Logo"
               style={{ height: '40px', width: 'auto' }}
             />
-            <span style={{ fontSize: '1.5rem', fontWeight: '700', color: 'var(--text-primary)' }}>
-              Mirra
-            </span>
           </div>
 
           {/* Desktop Navigation */}
