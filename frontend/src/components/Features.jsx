@@ -4,33 +4,33 @@ import { Zap, QrCode, Package, BarChart3, Smartphone } from 'lucide-react';
 const Features = () => {
   const features = [
     {
-      icon: Zap,
-      title: 'Pencatatan Penjualan Instan',
-      description: 'Input cepat barang & harga dengan riwayat transaksi otomatis untuk semua penjualan Anda.',
-      color: 'var(--color-primary)',
-    },
-    {
-      icon: QrCode,
-      title: 'Pembayaran QRIS Terintegrasi',
-      description: 'Scan-to-pay dan display QR dengan MDR kompetitif dan pencairan dana yang cepat.',
-      color: 'var(--color-secondary)',
-    },
-    {
       icon: Package,
-      title: 'Kelola Stok Sederhana',
-      description: 'Dashboard stok barang dengan notifikasi otomatis ketika stok menipis.',
+      title: 'Pencatatan Lengkap',
+      description: 'Catat pengeluaran, produk, penjualan, akuntansi, cabang, dan manajemen karyawan dalam satu sistem.',
       color: 'var(--color-primary)',
     },
     {
       icon: BarChart3,
-      title: 'Laporan Usaha Otomatis',
-      description: 'Omset harian/mingguan, laporan barang terlaris, dan grafik performa toko lengkap.',
+      title: 'Laporan Harian, Mingguan & Bulanan',
+      description: 'Pantau performa bisnis dengan laporan otomatis yang lengkap dan mudah dipahami.',
       color: 'var(--color-secondary)',
     },
     {
       icon: Smartphone,
-      title: 'Multi Device',
-      description: 'Akses dari web & mobile app Android. Sinkronisasi otomatis untuk kasir dan owner.',
+      title: 'Aplikasi Kasir Mudah',
+      description: 'Interface kasir yang intuitif dan cepat, bisa digunakan langsung tanpa training khusus.',
+      color: 'var(--color-primary)',
+    },
+    {
+      icon: QrCode,
+      title: 'Pembayaran QRIS',
+      description: 'Terima pembayaran QRIS dengan mudah, MDR kompetitif dan pencairan dana cepat.',
+      color: 'var(--color-secondary)',
+    },
+    {
+      icon: Zap,
+      title: 'Multi Device & Real-time',
+      description: 'Akses dari web & mobile Android. Data tersinkronisasi real-time untuk semua perangkat.',
       color: 'var(--color-primary)',
     },
   ];
