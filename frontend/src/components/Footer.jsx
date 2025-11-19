@@ -26,7 +26,11 @@ const Footer = () => {
               <img
                 src="https://customer-assets.emergentagent.com/job_0cb1f9a2-4609-4da6-8470-d381af0fb9b3/artifacts/1vv6e1dw_Untitled%20design%20%2836%29.png"
                 alt="Mirra Logo"
-                style={{ height: '48px', width: 'auto' }}
+                style={{ 
+                  height: '48px', 
+                  width: 'auto',
+                  filter: 'brightness(0) invert(1)'
+                }}
               />
             </div>
             <p style={{ fontSize: '1rem', color: 'rgba(255, 255, 255, 0.8)', lineHeight: '1.6', fontWeight: '500', marginBottom: '0.5rem' }}>
