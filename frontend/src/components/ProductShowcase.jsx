@@ -200,7 +200,7 @@ const ProductShowcase = () => {
                 }}
               >
                 <img
-                  src="https://customer-assets.emergentagent.com/job_0cb1f9a2-4609-4da6-8470-d381af0fb9b3/artifacts/52q9md9i_image.png"
+                  src="https://customer-assets.emergentagent.com/job_0cb1f9a2-4609-4da6-8470-d381af0fb9b3/artifacts/7tcvsbyi_image.png"
                   alt="Mirra Mobile App"
                   style={{
                     width: '100%',
