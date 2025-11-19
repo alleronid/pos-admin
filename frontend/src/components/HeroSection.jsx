@@ -90,8 +90,7 @@ const HeroSection = () => {
                 margin: '0 auto 2.5rem',
               }}
             >
-              Catat penjualan, kelola toko, dan terima pembayaran QRIS dalam satu aplikasi.
-              Teman setia usaha Anda.
+              Catat penjualan, kelola stok, dan terima pembayaran QRIS dalam satu aplikasi.
             </p>
 
             {/* CTA Buttons */}
