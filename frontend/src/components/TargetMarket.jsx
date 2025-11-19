@@ -89,74 +89,87 @@ const TargetMarket = () => {
               <div
                 key={index}
                 style={{
-                  background: 'var(--bg-card)',
-                  borderRadius: '16px',
-                  overflow: 'hidden',
-                  border: '1px solid var(--border-light)',
+                  background: market.gradient,
+                  borderRadius: '20px',
+                  border: `2px solid ${market.color === 'var(--color-primary)' ? 'rgba(255, 193, 7, 0.3)' : 'rgba(0, 168, 232, 0.3)'}`,
+                  padding: '2.5rem',
                   transition: 'all 0.3s ease',
                   cursor: 'pointer',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  textAlign: 'center',
+                  position: 'relative',
+                  overflow: 'hidden',
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-4px)';
-                  e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.08)';
+                  e.currentTarget.style.transform = 'translateY(-8px)';
+                  e.currentTarget.style.boxShadow = '0 12px 32px rgba(0, 0, 0, 0.1)';
+                  e.currentTarget.style.borderColor = market.color;
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = 'translateY(0)';
                   e.currentTarget.style.boxShadow = 'none';
+                  e.currentTarget.style.borderColor = market.color === 'var(--color-primary)' ? 'rgba(255, 193, 7, 0.3)' : 'rgba(0, 168, 232, 0.3)';
                 }}
               >
-                {/* Image */}
+                {/* Decorative background pattern */}
                 <div
                   style={{
-                    width: '100%',
-                    height: '200px',
-                    overflow: 'hidden',
+                    position: 'absolute',
+                    top: '-50px',
+                    right: '-50px',
+                    width: '150px',
+                    height: '150px',
+                    borderRadius: '50%',
+                    background: market.iconBg,
+                    opacity: 0.3,
+                    zIndex: 0,
+                  }}
+                />
+
+                {/* Icon */}
+                <div
+                  style={{
+                    width: '80px',
+                    height: '80px',
+                    borderRadius: '20px',
+                    background: market.iconBg,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginBottom: '1.5rem',
                     position: 'relative',
+                    zIndex: 1,
                   }}
                 >
-                  <img
-                    src={market.image}
-                    alt={market.title}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      transition: 'transform 0.3s ease',
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'scale(1.05)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = 'scale(1)';
-                    }}
-                  />
-                  <div
-                    style={{
-                      position: 'absolute',
-                      top: '1rem',
-                      left: '1rem',
-                      width: '48px',
-                      height: '48px',
-                      borderRadius: '12px',
-                      background: 'rgba(255, 255, 255, 0.95)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      backdropFilter: 'blur(8px)',
-                    }}
-                  >
-                    <IconComponent size={24} style={{ color: 'var(--color-secondary)' }} />
-                  </div>
+                  <IconComponent size={40} style={{ color: market.color }} />
                 </div>
 
                 {/* Content */}
-                <div style={{ padding: '1.5rem' }}>
-                  <h3 className="heading-3" style={{ marginBottom: '0.5rem', fontSize: '1.125rem' }}>
+                <div style={{ position: 'relative', zIndex: 1 }}>
+                  <h3 className="heading-3" style={{ marginBottom: '0.75rem', fontSize: '1.25rem' }}>
                     {market.title}
                   </h3>
-                  <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', margin: 0 }}>
+                  <p style={{ fontSize: '1rem', color: 'var(--text-secondary)', margin: 0, lineHeight: '1.6' }}>
                     {market.description}
                   </p>
+                </div>
+
+                {/* Small Mirra logo at bottom */}
+                <div
+                  style={{
+                    marginTop: '1.5rem',
+                    opacity: 0.4,
+                    position: 'relative',
+                    zIndex: 1,
+                  }}
+                >
+                  <img
+                    src="https://customer-assets.emergentagent.com/job_0cb1f9a2-4609-4da6-8470-d381af0fb9b3/artifacts/1vv6e1dw_Untitled%20design%20%2836%29.png"
+                    alt="Mirra"
+                    style={{ height: '24px', width: 'auto' }}
+                  />
                 </div>
               </div>
             );
