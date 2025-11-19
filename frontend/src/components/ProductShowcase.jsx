@@ -91,7 +91,7 @@ const ProductShowcase = () => {
             }}
           >
             <img
-              src="https://customer-assets.emergentagent.com/job_0cb1f9a2-4609-4da6-8470-d381af0fb9b3/artifacts/ctp0qmzf_image.png"
+              src="https://customer-assets.emergentagent.com/job_0cb1f9a2-4609-4da6-8470-d381af0fb9b3/artifacts/r5yerdf3_image.png"
               alt="Mirra Dashboard Web"
               style={{
                 width: '100%',
