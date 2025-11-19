@@ -19,13 +19,14 @@ const HeroSection = () => {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: '1fr',
-            gap: '3rem',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(450px, 1fr))',
+            gap: '4rem',
             alignItems: 'center',
           }}
+          className="hero-grid"
         >
           {/* Hero Content */}
-          <div style={{ textAlign: 'center', maxWidth: '900px', margin: '0 auto' }}>
+          <div>
             {/* Badge */}
             <div
               style={{
@@ -86,8 +87,6 @@ const HeroSection = () => {
               style={{
                 marginBottom: '2.5rem',
                 color: 'var(--text-secondary)',
-                maxWidth: '700px',
-                margin: '0 auto 2.5rem',
               }}
             >
               Catat penjualan, kelola stok, dan terima pembayaran QRIS dalam satu aplikasi.
@@ -98,8 +97,8 @@ const HeroSection = () => {
               style={{
                 display: 'flex',
                 gap: '1rem',
-                justifyContent: 'center',
                 flexWrap: 'wrap',
+                marginBottom: '3rem',
               }}
             >
               <a href="https://pos.digi-nest.my.id/signup" className="btn-primary">
@@ -122,20 +121,18 @@ const HeroSection = () => {
             {/* Trust Indicators */}
             <div
               style={{
-                marginTop: '4rem',
                 display: 'flex',
-                gap: '3rem',
-                justifyContent: 'center',
+                gap: '2.5rem',
                 flexWrap: 'wrap',
               }}
             >
-              <div style={{ textAlign: 'center' }}>
+              <div>
                 <div
                   style={{
                     fontSize: '2rem',
                     fontWeight: '700',
                     color: 'var(--color-secondary)',
-                    marginBottom: '0.5rem',
+                    marginBottom: '0.25rem',
                   }}
                 >
                   1000+
@@ -144,13 +141,13 @@ const HeroSection = () => {
                   UMKM Terdaftar
                 </div>
               </div>
-              <div style={{ textAlign: 'center' }}>
+              <div>
                 <div
                   style={{
                     fontSize: '2rem',
                     fontWeight: '700',
                     color: 'var(--color-secondary)',
-                    marginBottom: '0.5rem',
+                    marginBottom: '0.25rem',
                   }}
                 >
                   24/7
@@ -159,13 +156,13 @@ const HeroSection = () => {
                   Dukungan Pelanggan
                 </div>
               </div>
-              <div style={{ textAlign: 'center' }}>
+              <div>
                 <div
                   style={{
                     fontSize: '2rem',
                     fontWeight: '700',
                     color: 'var(--color-secondary)',
-                    marginBottom: '0.5rem',
+                    marginBottom: '0.25rem',
                   }}
                 >
                   99.9%
@@ -176,8 +173,101 @@ const HeroSection = () => {
               </div>
             </div>
           </div>
+
+          {/* Hero Image */}
+          <div
+            style={{
+              position: 'relative',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <div
+              style={{
+                position: 'relative',
+                borderRadius: '20px',
+                overflow: 'hidden',
+                boxShadow: '0 20px 60px rgba(0, 0, 0, 0.15)',
+                border: '1px solid var(--border-light)',
+              }}
+            >
+              <img
+                src="https://images.unsplash.com/photo-1728044849291-69f90d443aea"
+                alt="Mirra POS System"
+                style={{
+                  width: '100%',
+                  height: 'auto',
+                  display: 'block',
+                  maxWidth: '550px',
+                }}
+              />
+              {/* Mirra logo overlay */}
+              <div
+                style={{
+                  position: 'absolute',
+                  bottom: '1.5rem',
+                  right: '1.5rem',
+                  background: 'rgba(255, 255, 255, 0.95)',
+                  padding: '0.75rem 1.25rem',
+                  borderRadius: '12px',
+                  backdropFilter: 'blur(8px)',
+                  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+                }}
+              >
+                <img
+                  src="https://customer-assets.emergentagent.com/job_0cb1f9a2-4609-4da6-8470-d381af0fb9b3/artifacts/1vv6e1dw_Untitled%20design%20%2836%29.png"
+                  alt="Mirra"
+                  style={{ height: '32px', width: 'auto' }}
+                />
+              </div>
+            </div>
+            
+            {/* Decorative elements */}
+            <div
+              style={{
+                position: 'absolute',
+                top: '-20px',
+                right: '-20px',
+                width: '120px',
+                height: '120px',
+                borderRadius: '50%',
+                background: 'linear-gradient(135deg, rgba(255, 193, 7, 0.2), rgba(0, 168, 232, 0.2))',
+                filter: 'blur(40px)',
+                zIndex: -1,
+              }}
+            />
+            <div
+              style={{
+                position: 'absolute',
+                bottom: '-30px',
+                left: '-30px',
+                width: '150px',
+                height: '150px',
+                borderRadius: '50%',
+                background: 'linear-gradient(135deg, rgba(0, 168, 232, 0.2), rgba(255, 193, 7, 0.2))',
+                filter: 'blur(50px)',
+                zIndex: -1,
+              }}
+            />
+          </div>
         </div>
       </div>
+      
+      <style>{`
+        @media (max-width: 968px) {
+          .hero-grid {
+            grid-template-columns: 1fr !important;
+            text-align: center;
+          }
+          .hero-grid > div:first-child {
+            order: 2;
+          }
+          .hero-grid > div:last-child {
+            order: 1;
+          }
+        }
+      `}</style>
     </section>
   );
 };
