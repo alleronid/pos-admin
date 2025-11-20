@@ -26,12 +26,29 @@ use Illuminate\Support\Facades\Http;
 use App\Models\PaymentGateway;
 use Razorpay\Api\Api;
 use App\Models\Shop;
+use App\Services\TaraPayService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use App\Models\Sale;
+use App\Repositories\MediaRepository;
+use App\Repositories\CouponRepository;
+use App\Repositories\PurchaseBatchRepository;
+use App\Repositories\WalletRepository;
+use App\Repositories\ProductSaleRepository;
 
 
 class PosController extends Controller
 {
+
+    private $taraPayService;
+    private static $path = '/sale';
+
+    public function __construct(TaraPayService $taraPayService)
+    {
+        $this->taraPayService = $taraPayService;
+    }
+
+
     public function pos()
     {
         $customers = CustomerRepository::query()->where('shop_id', $this->mainShop()->id)->orderByDesc('id')->get();
@@ -238,18 +255,18 @@ class PosController extends Controller
                 $redirectUrl = $paystackResponse['data']['authorization_url'];
                 break;
 
-                case 'razorpay':
-                    // Get only the necessary request parameters
-                    $successUrl = route('razorpay') . '?' . http_build_query([
-                        'payment' => 'razorpay',
-                        'sale_id' => $sale_id,
-                        'user_id' => $user->id, // Pass user ID or any other parameters as needed
-                    ]);
+            case 'razorpay':
+                // Get only the necessary request parameters
+                $successUrl = route('razorpay') . '?' . http_build_query([
+                    'payment' => 'razorpay',
+                    'sale_id' => $sale_id,
+                    'user_id' => $user->id, // Pass user ID or any other parameters as needed
+                ]);
 
-                    // Set the redirect URL
-                    $redirectUrl = $successUrl;
+                // Set the redirect URL
+                $redirectUrl = $successUrl;
 
-                    break;
+                break;
 
 
             case 'orangepay':
@@ -298,39 +315,39 @@ class PosController extends Controller
                 }
                 break;
 
-                case 'payfast':
-                    if (!isset($gatewayConfigs['payfast']['merchant_key']) || !isset($gatewayConfigs['payfast']['merchant_id'])) {
-                        return response()->json(['status' => 'error', 'message' => 'PayFast credentials not found'], 400);
-                    }
+            case 'payfast':
+                if (!isset($gatewayConfigs['payfast']['merchant_key']) || !isset($gatewayConfigs['payfast']['merchant_id'])) {
+                    return response()->json(['status' => 'error', 'message' => 'PayFast credentials not found'], 400);
+                }
 
-                    $payfastUrl = 'https://sandbox.payfast.co.za/eng/process';
-                    $apiKey     = $gatewayConfigs['payfast']['merchant_key'];
-                    $merchantId = $gatewayConfigs['payfast']['merchant_id'];
+                $payfastUrl = 'https://sandbox.payfast.co.za/eng/process';
+                $apiKey     = $gatewayConfigs['payfast']['merchant_key'];
+                $merchantId = $gatewayConfigs['payfast']['merchant_id'];
 
 
-                    $callbackUrl = $successUrl . '?' . http_build_query([
-                        'payment' => 'payfast',
-                        'request' => $sale_id,
-                        'user'    => $user->id,
-                    ]);
+                $callbackUrl = $successUrl . '?' . http_build_query([
+                    'payment' => 'payfast',
+                    'request' => $sale_id,
+                    'user'    => $user->id,
+                ]);
 
-                    $data = [
-                        'merchant_id'  => $merchantId,
-                        'merchant_key' => $apiKey,
-                        'name'         => $user->name,
-                        'email'        => $user->email,
-                        'amount'       => $amount,
-                        'currency'     => 'ZAR',
-                        'item_name'    => 'Subscription Payment',
-                        'return_url'   => $callbackUrl,
-                        'cancel_url'   => route('payment.cancel', ['payment' => 'payfast']),
-                        'notify_url'   => $callbackUrl,
-                    ];
+                $data = [
+                    'merchant_id'  => $merchantId,
+                    'merchant_key' => $apiKey,
+                    'name'         => $user->name,
+                    'email'        => $user->email,
+                    'amount'       => $amount,
+                    'currency'     => 'ZAR',
+                    'item_name'    => 'Subscription Payment',
+                    'return_url'   => $callbackUrl,
+                    'cancel_url'   => route('payment.cancel', ['payment' => 'payfast']),
+                    'notify_url'   => $callbackUrl,
+                ];
 
-                    $queryString = http_build_query($data);
+                $queryString = http_build_query($data);
 
-                    $redirectUrl = $payfastUrl . '?' . $queryString;
-                    break;
+                $redirectUrl = $payfastUrl . '?' . $queryString;
+                break;
 
             default:
                 return response()->json(['status' => 'error', 'message' => 'Invalid payment method'], 400);
@@ -348,24 +365,32 @@ class PosController extends Controller
             $draftSales->productSales()->delete();
             $draftSales->delete();
         }
-
-
-        if($request->payment_method != 'Cash' && $request->type != 'Draft')
-        {
-            $paymentStatus = 1;
-
-            $sale = SaleRepository::storeByRequest($request->merge(['payment_statuss' => $paymentStatus]));
-
-           $redirectUrl = $this->redirectPayment($request, $sale->id);
-           return $this->json('successfully created', [
-            'redirectUrl' => $redirectUrl,
-            'id' => $sale->id,
-
+        if (strtolower($request->payment_method == 'qris')) {
+            $sale = $this->qris($request);
+            if ($request->type == 'Draft') {
+                $message = 'Product successfull drafted';
+            }
+            $message = 'Product successfull sold';
+            return $this->json($message, [
+                'draft_id' => $sale->id,
+                'data' => $sale,
+                'invoice_pdf_url' => $request->type == 'Draft' ? null : $this->downloadInvoice($sale->id),
+                'payment_content' => $sale->payment_content,
             ]);
-        }else{
-
+        } else if ($request->payment_method != 'Cash' && $request->type != 'Draft') {
+            $paymentStatus = 1;
+            $sale = SaleRepository::storeByRequest($request->merge(['payment_statuss' => $paymentStatus]));
+            if ($request->type == 'Draft') {
+                $message = 'Product successfull drafted';
+            }
+            $redirectUrl = $this->redirectPayment($request, $sale->id);
+            $message = 'Product successfull sold';
+            return $this->json('successfully created', [
+                'redirectUrl' => $redirectUrl,
+                'id' => $sale->id,
+            ]);
+        } else {
             $sale = SaleRepository::storeByRequest($request);
-
             $message = 'Product successfull sold';
             if ($request->type == 'Draft') {
                 $message = 'Product successfull drafted';
@@ -375,7 +400,6 @@ class PosController extends Controller
                 'invoice_pdf_url' => $request->type == 'Draft' ? null : $this->downloadInvoice($sale->id),
             ]);
         }
-
     }
 
     public function successPayment(Request $request)
@@ -391,7 +415,7 @@ class PosController extends Controller
 
         switch ($paymentMethod) {
             case 'stripe':
-                $gatewayConfigs = $this->getPaymentGatewayConfigs($shop,'stripe');
+                $gatewayConfigs = $this->getPaymentGatewayConfigs($shop, 'stripe');
 
                 \Stripe\Stripe::setApiKey($gatewayConfigs['secret_key']);
 
@@ -410,7 +434,7 @@ class PosController extends Controller
                 $paymentId = $request->input('paymentId');
                 $payerId = $request->input('PayerID');
 
-                $gatewayConfigs = $this->getPaymentGatewayConfigs($shop,'paypal');
+                $gatewayConfigs = $this->getPaymentGatewayConfigs($shop, 'paypal');
                 $paypalClientId = $gatewayConfigs['client_id'];
                 $paypalSecret = $gatewayConfigs['client_secret'];
 
@@ -543,6 +567,7 @@ class PosController extends Controller
             'products' => $products,
         ]);
     }
+
     private function downloadInvoice($id)
     {
         $sale = SaleRepository::find($id);
@@ -566,8 +591,8 @@ class PosController extends Controller
     private function getPaymentGatewayConfigs($shop, $payment_method)
     {
         $paymentGateways = PaymentGateway::where('shop_id', $shop->id)->where('name', $payment_method)
-                            ->where('is_active', 1)
-                            ->first();
+            ->where('is_active', 1)
+            ->first();
         $config = json_decode($paymentGateways->config, true);
 
 
@@ -646,39 +671,163 @@ class PosController extends Controller
                 'theme'       => [
                     'color' => '#F37254',
                 ],
-                'callback_url'=> $callbackUrl,
+                'callback_url' => $callbackUrl,
             ],
         ]);
     }
 
-
-    public function success(Request $request, $id=null)
+    public function success(Request $request, $id = null)
     {
-        if($id != null){
+        if ($id != null) {
             return $this->json('Successfully Payment Complete', [
                 'invoice_pdf_url' => $this->downloadInvoice($id),
             ]);
-        }else{
+        } else {
             return 'success';
         }
-
     }
 
-    public function invoice($id=null)
+    public function invoice($id = null)
     {
         $message = 'Successfully Payment Complete';
         return $this->json($message, [
             'invoice_pdf_url' => $this->downloadInvoice($id),
         ]);
-
     }
-
 
     public function cancelPayment()
     {
         return $this->json('Something went wrong ', []);
-
     }
 
+    public function qris($request)
+    {
+        $documentId = null;
+        if ($request->hasFile('document')) {
+            $document = MediaRepository::storeByRequest(
+                $request->document,
+                self::$path,
+                'Image',
+            );
+            $documentId = $document->id;
+        }
+        $request['payment_status'] = 3;
+        $products = ProductRepository::query()->whereIn('id', $request->product_ids)->get();
+        $tax = TaxRepository::find($request->tax_id);
+        $coupon = CouponRepository::find($request->coupon_id);
 
+        $totalProductDiscount = 0;
+        $totalproductTax = 0;
+        $totalPrice = 0;
+
+        foreach ($products as $key => $product) {
+            $price = isset($request->price[$key]) ? $request->price[$key] : $product->price;
+
+            if (feature('purchases')) {
+                $product->update([
+                    'qty' => $product->qty - $request->qty[$key]
+                ]);
+
+                $isBatch = $product->whereNotNull('is_batch')->first();
+                if ($isBatch) {
+                    PurchaseBatchRepository::batchProductSale($isBatch, $request->qty[$key]);
+                }
+            }
+
+            $productTax = ($price * ($product?->tax->rate ?? 0)) / 100;
+
+            $totalPrice += ($price + $productTax) * $request->qty[$key];
+            $totalproductTax += $productTax * $request->qty[$key];
+        }
+
+        $referenceNo = 'mirra-' . date("Ymd") . '-' . date("his");
+
+        if ($request->reference_no) {
+            $referenceNo = $request->reference_no;
+        }
+
+        $totalDiscount = $request->discount ?? 0;
+
+        if ($request->discount_type == 'Percentage') {
+            $totalDiscount = $totalPrice * $request->discount / 100;
+        }
+
+        $totalTax = 0;
+
+        if ($tax) {
+            $totalTax = ($totalPrice - $totalDiscount) * $tax->rate / 100;
+        }
+
+        $totalCouponAmount = $coupon->amount ?? 0;
+        if (isset($coupon->type) && $coupon->type->value == 'Percentage') {
+            $totalCouponAmount = $totalPrice * $coupon->amount / 100;
+        }
+
+        $grandTotal = ($totalPrice - $totalDiscount - $totalCouponAmount) + $totalTax + $request->shipping_cost;
+
+        $user = auth()->user();
+        $feeRate = $grandTotal * (1.1 / 100);
+        $grandTotal += $feeRate;
+        $body = [
+            "productCode" => 31,
+            "currency" =>  "IDR",
+            "amount" =>  (int) $grandTotal,
+            "mchOrderNo" =>  (string) $referenceNo,
+            "remark" =>  "remark",
+            "userName" => "mirra-pos"
+        ];
+        $result = $this->taraPayService->paymentProcess($body);
+        $result = json_decode($result);
+
+        if ($result->code === 0) {
+            $payment_code = $result->data->payCode;
+        } else {
+            throw new \Exception('TaraPay QRIS Payment Gateway Error: ' . $result->message);
+        }
+
+        $sale = Sale::create([
+            'created_by' => auth()->id(),
+            'shop_id' => self::mainShop()->id,
+            'reference_no' => $referenceNo,
+            'customer_id' => $request->customer_id,
+            'item' => collect($request->product_ids)->count(),
+            'total_qty' => collect($request->qty)->count(),
+            'total_discount' => $totalProductDiscount,
+            'total_tax' => $totalproductTax,
+            'total_price' => $totalPrice,
+            'grand_total' => $grandTotal,
+            'order_tax_rate' => $tax?->rate,
+            'order_tax' => $totalTax,
+            'order_discount' => $totalDiscount,
+            'coupon_id' => $coupon?->id,
+            'coupon_discount' => $totalCouponAmount,
+            'shipping_cost' => $request->shipping_cost,
+            'sale_status' => 1,
+            'payment_status' => $request->payment_statuss  ? $request->payment_statuss : $request->payment_status,
+            'payment_method' => $request->payment_method ?? 'Cash',
+            'document_id' => $documentId,
+            'paid_amount' => $request->paid_amount,
+            'sale_note' => $request->sale_note,
+            'staff_note' => $request->staff_note,
+            'type' => $request->type,
+            'json_raw' => json_encode($result) ?? '',
+            'payment_content' => $request->payment_method === 'qris' ? $payment_code : null,
+        ]);
+
+        ProductSaleRepository::storeByRequest($request, $sale);
+        if ($request->draft_id) {
+            $draft = Sale::find($request->draft_id);
+            if (feature('purchases')) {
+                foreach ($draft->productSales as $draftProduct) {
+                    $draftProduct->product->update(['qty' => $draftProduct->product->qty + $draftProduct->qty]);
+                }
+            }
+
+            $draft->productSales()->delete();
+            $draft->delete();
+        }
+        $wallet = $user->wallet ??  WalletRepository::store($user);
+        WalletRepository::credit($wallet, $grandTotal);
+        return $sale;
+    }
 }

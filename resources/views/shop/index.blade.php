@@ -24,6 +24,9 @@
                                 <th>{{ __('subscription_expire') }}</th>
                                 <th>{{ __('lifetime') }}</th>
                                 <th>{{ __('status') }}</th>
+                                <th>KTP</th>
+                                <th>NPWP</th>
+                                <th>Merchant Location</th>
                                 <th class="not-exported">{{ __('action') }}</th>
                             </tr>
                         </thead>
@@ -52,6 +55,18 @@
                                                 {{ $shop->status->value == 'Active' ? 'checked' : '' }}>
                                             <span class="slider round"></span>
                                         </label>
+                                    </td>
+                                    <td><a href="{{ $shop->ktpFile->file ?? asset('defualt/defualt.jpg') }}"><img class="profilepic"
+                                        src="{{ $shop->ktpFile->file ?? asset('defualt/defualt.jpg') }}"
+                                        alt=""></a>
+                                    </td>
+                                    <td><a href="{ $shop->npwpFile->file ?? asset('defualt/defualt.jpg') }}"><img class="profilepic"
+                                            src="{{ $shop->npwpFile->file ?? asset('defualt/defualt.jpg') }}"
+                                            alt=""></a>
+                                    </td>
+                                    <td><a href="{{ $shop->locationShop->file ?? asset('defualt/defualt.jpg') }}"><img class="profilepic"
+                                                src="{{ $shop->locationShop->file ?? asset('defualt/defualt.jpg') }}"
+                                                alt=""></a>
                                     </td>
                                     <td>
                                         <div class="dropdown dropdown-custom-width">

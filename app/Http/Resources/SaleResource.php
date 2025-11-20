@@ -28,7 +28,8 @@ class SaleResource extends JsonResource
             'price' => $this->price,
             'cost' => $this->cost,
             'tax' => $tax,
-            'subtotal' => $this->price + $tax
+            'subtotal' => $this->price + $tax,
+            'payment_content' => $this->payment_content
         ];
     }
 }

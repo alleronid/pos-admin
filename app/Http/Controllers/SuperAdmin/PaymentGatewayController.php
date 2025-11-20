@@ -21,6 +21,7 @@ use App\Services\PaystackService;
 use App\PaymentMethod\OrangeMoney;
 use App\Services\OrangePayService;
 use App\Services\PayfastService;
+use App\Services\TaraPayService;
 use Illuminate\Support\Facades\Http;
 use Exception;
 
@@ -33,6 +34,7 @@ class PaymentGatewayController extends Controller
         protected PaystackService $paystackService,
         protected OrangePayService $orangepayService,
         protected PayfastService $payfastService,
+        protected TaraPayService $taraPayService
     ) {}
 
     /**
@@ -77,7 +79,6 @@ class PaymentGatewayController extends Controller
             $config = json_decode($paymentGateway->config);
             $request['paid_amount'] = $subscriptionRequest->subscription->price ??  null;
             $request['description'] = $subscriptionRequest->subscription->description ?? null;
-            $request['mode'] = $paymentGateway->mode ?? null;
             $this->{$request->payment_method . 'Service'}->paymentProcess($request, $config);
             $shopSubscription = ShopSubscriptionRepository::query()->where([
                 'is_current' => IsHas::YES->value,
@@ -149,7 +150,5 @@ class PaymentGatewayController extends Controller
             return to_route('subscription.purchase.index')->withError('Something is wrong please try again');;
         }
     }
-
-
 
 }

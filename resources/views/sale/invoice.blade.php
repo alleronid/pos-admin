@@ -173,27 +173,71 @@
                         <td style="padding: 5px;width:20%">Total PCs: {{ $sale->total_qty }}</td>
                         <td style="padding: 5px;width:25%;text-align:center">Paid By: {{ $sale->payment_method }}</td>
                         <td style="padding: 5px;width:30%;text-align:center">Discount: {{ numberFormat($sale->coupon_discount) }}</td>
-                        <td style="padding: 5px;width:25%;text-align:right">Total:
-                            <strong>{{ numberFormat($sale->grand_total) }}</strong>
+                        <td style="padding: 5px;width:25%;text-align:right">
+                            Total: <strong>{{ numberFormat($sale->grand_total) }}</strong>
                         </td>
                     </tr>
-
+            
+                    @if ($sale->payment_method == 'qris')
                     <tr>
-                        <td class="centered" colspan="3">Thank you for choosing {{ $generalsettings?->site_title }}
+                        <td colspan="4" style="text-align:center; padding-top:15px;">
+                            <b>SCAN QR CODE dibawah ini</b><br>
+                            <img id="qrCodeImage"
+                                 src="https://api.qrserver.com/v1/create-qr-code/?data=<?= $sale->payment_content; ?>&size=200x200"
+                                 class="mt-3" alt="" />
+                            <br>
+                            <button id="downloadBtn" class="mt-3">Download QR Code</button>
+                            <h2 id="timer" style="color:black;font-size:10px;">Berlaku sampai 5:00</h2>
+                        </td>
+                    </tr>
+                    @endif
+        
+                    <tr>
+                        <td class="centered" colspan="4" style="padding-top:15px;">
+                            Thank you for choosing {{ $generalsettings?->site_title }}
                         </td>
                     </tr>
                 </tbody>
             </table>
-
         </div>
     </div>
 
-    <script type="text/javascript">
-        function auto_print() {
-            window.print()
+    <script>
+        document.getElementById('downloadBtn')?.addEventListener('click', function () {
+            const img = document.getElementById('qrCodeImage');
+            const url = img.src;
+        
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = "qris-code.png";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        });
+        
+        let timeLeft = 300;
+        
+        function updateTimer() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+        
+            document.getElementById("timer").textContent =
+                "Berlaku sampai " +
+                minutes + ":" + (seconds < 10 ? "0" + seconds : seconds);
+        
+            if (timeLeft <= 0) {
+                document.getElementById("timer").textContent = "QR Code Expired";
+                document.getElementById("timer").style.color = "red";
+                return;
+            }
+        
+            timeLeft--;
         }
-        setTimeout(auto_print, 1000);
-    </script>
+        
+        setInterval(updateTimer, 1000); 
+        updateTimer();
+        </script>
+        
 </body>
 
 </html>

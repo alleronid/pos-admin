@@ -40,7 +40,7 @@ class ShopController extends Controller
 {
     public function index()
     {
-        $shops = ShopRepository::getAll();
+        $shops = Shop::with(['ktpFile','npwpFile','locationShop'])->get();
         $shopCategories = ShopCategoryRepository::query()->where('status', 'Active')->get();
         $subsciptions = SubscriptionRepository::query()->where('status', 'Active')->get();
         return view('shop.index', compact('shops', 'shopCategories', 'subsciptions'));

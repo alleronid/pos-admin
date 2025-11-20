@@ -952,6 +952,8 @@
                         handleOrangePayPayment(totalGrand, type, qtyArray, ProductPriceArray, ProductIdArray, ProductVariantArray, productSerialNumberArray, customer_id, coupon_id);
                     }else if (payment_method === 'cash') {
                         processSale(type, totalGrand, qtyArray, ProductPriceArray, ProductIdArray, ProductVariantArray, productSerialNumberArray, customer_id, coupon_id, '', 'cash');
+                    }else if (payment_method === 'qris'){
+                        processQris(type, totalGrand, qtyArray, ProductPriceArray, ProductIdArray, ProductVariantArray, productSerialNumberArray, customer_id, coupon_id, '', 'qris');
                     }
                 }else{
                     $.ajax({
@@ -1220,7 +1222,6 @@
             });
         }
 
-
         function processSale(type, totalGrand, qtyArray, ProductPriceArray, ProductIdArray, ProductVariantArray, productSerialNumberArray, customer_id, coupon_id, tokenId=null, payment_method, phoneNumber = null, pinCode = null){
             $.ajax({
                 url: '/sale/pos',
@@ -1251,6 +1252,46 @@
                     if (type == 'Sales') {
                         window.location = 'sales/invoice/' + response.data.sale.id;
                     }
+                },
+                error: function(xhr, status, error) {
+                    var response = JSON.parse(xhr.responseText);
+                    Toast.fire({
+                        icon: 'error',
+                        title: response.message
+                    })
+                }
+            });
+        }
+
+        function processQris(type, totalGrand, qtyArray, ProductPriceArray, ProductIdArray, ProductVariantArray, productSerialNumberArray, customer_id, coupon_id, tokenId=null, payment_method, phoneNumber = null, pinCode = null){
+            $.ajax({
+                url: '/sale/pos',
+                type: 'GET',
+                data: {
+                    sale_id: $('#saleId').val(),
+                    type: type,
+                    paid_amount: totalGrand,
+                    qty: qtyArray,
+                    price: ProductPriceArray,
+                    product_ids: ProductIdArray,
+                    product_variant_ids: ProductVariantArray,
+                    product_serial_numbers: productSerialNumberArray,
+                    customer_id: customer_id,
+                    coupon_id: coupon_id,
+                    payment_method: payment_method,
+                    token_id: tokenId,
+                    phoneNumber: phoneNumber ?? null,
+                    pinCode: pinCode ?? null,
+                },
+                success: function(response) {
+                    console.log(response);
+                    $('#saleId').val(response.data.sale.id);
+                    Toast.fire({
+                        icon: 'success',
+                        title: response.message
+                    });
+                    cancelSale();
+                        window.location = 'sales/invoice/' + response.data.sale.id;
                 },
                 error: function(xhr, status, error) {
                     var response = JSON.parse(xhr.responseText);
@@ -1328,9 +1369,6 @@
             $('#productPriceCustomizationModal_' + id).addClass('invisible');
             countQty();
         });
-
-
-
 
         selectTipButton = (id, percentage = null) => {
             const amount = $('#payment_terminal_amount').attr('data-amount');

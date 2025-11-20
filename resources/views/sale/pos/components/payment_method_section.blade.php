@@ -9,6 +9,16 @@
         </label>
     </div>
 
+    <div class="grow relative">
+        <input type="radio" name="payment" value="qris" id="qris" class="peer sr-only payment_method" />
+        <label for="qris"
+            class="flex justify-center items-center gap-2 p-2 text-base font-semibold leading-relaxed text-teal-400 primary-bg-color-light h-12 border-2 border-transparent cursor-pointer payment_option"
+            data-bg="primary-bg-color-light">
+            <img src="{{ asset('/icons/qris.svg') }}" alt="" width="120" height="35"/>
+            {{-- <span>{{ __('qris') }}</span> --}}
+        </label>
+    </div>
+
 {{-- @foreach($paymentGateways as $key => $paymentGateway)
     @php
         $colorClasses = [

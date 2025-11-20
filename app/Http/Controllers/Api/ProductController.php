@@ -107,7 +107,7 @@ class ProductController extends Controller
         }
         $product = ProductRepository::storeByRequest($request);
 
-        if ($request->variant_name) { //If not empty variant
+        if ($request->variant_name) { 
             $productVariant = [];
             foreach ($request->variant_name as $key => $variant) {
                 $variantId = VariantRepository::storyByRequest($variant);

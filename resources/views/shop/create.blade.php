@@ -44,6 +44,15 @@
                                     <div class="col-md-4">
                                         <x-fileInputGroup name="shop_favicon" title="shop_favicon" :required="false" />
                                     </div>
+                                    <div class="col-md-4 mt-3">
+                                        <x-fileInputGroup name="ktp" title="KTP" :required="false" />
+                                    </div>
+                                    <div class="col-md-4 mt-3">
+                                        <x-fileInputGroup name="npwp" title="npwp" :required="false" />
+                                    </div>
+                                    <div class="col-md-4 mt-3">
+                                        <x-fileInputGroup name="merchant_location" title="merchant_shop" :required="false" />
+                                    </div>
                                     <div class="col-md-12">
                                         <div class="form-group mt-3">
                                             <x-common-button name="submit" />

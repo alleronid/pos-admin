@@ -73,4 +73,19 @@ class Shop extends Model
     {
         return $this->belongsToMany(BusinessModules::class);
     }
+
+    public function ktpFile()
+    {
+        return $this->belongsTo(Media::class, 'ktp');
+    }
+
+    public function npwpFile()
+    {
+        return $this->belongsTo(Media::class, 'npwp');
+    }
+
+    public function locationShop()
+    {
+        return $this->belongsTo(Media::class, 'merchant_location');
+    }
 }
