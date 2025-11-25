@@ -69,17 +69,17 @@
     <!-- Login-Section -->
     <section class="login-section">
         <div class="leftSection">
-            <img src="{{ asset('login/assets/images/loginBG.png') }}">
+            <img src="{{ asset('login/assets/images/pc.png') }}" width="720px">
             <div class="hoverContent">
                 <img src="{{ asset('login/assets/images/Credit_card.png') }}" class="credit-card" alt="">
                 <img src="{{ asset('login/assets/images/Frame.png') }}" class="frame" alt="">
                 <img src="{{ asset('login/assets/images/Cart.png') }}" class="cart" alt="">
                 <img src="{{ asset('login/assets/images/shoping.png') }}" class="shoping" alt="">
-                <h2 class="over-text2">{{ __('ready') }}!</h2>
+                <!--<h2 class="over-text2">{{ __('ready') }}!</h2>-->
             </div>
-            <h2 class="over-text1">{{ __('streamline_sales_with') }}</h2>
+            <!--<h2 class="over-text1">{{ __('streamline_sales_with') }}</h2>-->
         </div>
-        <p class="bottom-text">{{ __('left_side_bottom_text') }}</p>
+        <!--<p class="bottom-text">{{ __('left_side_bottom_text') }}</p>-->
         <div class="loginCard">
             @yield('content')
         </div>

@@ -6,7 +6,8 @@ class TaraPayEnums
 {
   const URL_DEV = 'https://sandbox.tarapay-id.com';
   const URL_PROD = 'https://openapi.tarapay-id.com';
-  const APP_ID = 'hrsDFIcRl1X0fgtnudgE9xPMLAXtJLyg';
+  // const APP_ID = 'hrsDFIcRl1X0fgtnudgE9xPMLAXtJLyg';
+  const APP_ID = 'fkS2RW5Sv9IMK4GEwVZ8nBX6KTXr6OGa';
  
   public static array $errors = [
     '10011101' => '{0} parameters error.',

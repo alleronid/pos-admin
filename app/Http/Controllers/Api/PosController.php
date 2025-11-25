@@ -12,6 +12,7 @@ use App\Http\Resources\ProductResource;
 use App\Http\Resources\TaxResource;
 use App\Http\Resources\WarehouseResource;
 use App\Http\Resources\PaymentGatewayResource;
+use App\Models\Callback;
 use App\Models\GeneralSetting;
 use App\Repositories\BrandRepository;
 use App\Repositories\CategoryRepository;
@@ -35,7 +36,8 @@ use App\Repositories\CouponRepository;
 use App\Repositories\PurchaseBatchRepository;
 use App\Repositories\WalletRepository;
 use App\Repositories\ProductSaleRepository;
-
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class PosController extends Controller
 {
@@ -84,6 +86,7 @@ class PosController extends Controller
             'paymentGatewayResources' => PaymentGatewayResource::collection($paymentGateways),
         ]);
     }
+
     public function redirectPayment($request, $sale_id)
     {
         $user = auth()->user();
@@ -700,6 +703,14 @@ class PosController extends Controller
         return $this->json('Something went wrong ', []);
     }
 
+    public function detailSale($id){
+        $sales = Sale::find($id);
+        return $this->json('Detail Sale', [
+            'sales' => $sales,
+        ]);
+    }
+
+    //generate qiris payment
     public function qris($request)
     {
         $documentId = null;
@@ -711,7 +722,7 @@ class PosController extends Controller
             );
             $documentId = $document->id;
         }
-        $request['payment_status'] = 3;
+        $request['payment_status'] = 1;
         $products = ProductRepository::query()->whereIn('id', $request->product_ids)->get();
         $tax = TaxRepository::find($request->tax_id);
         $coupon = CouponRepository::find($request->coupon_id);
@@ -803,7 +814,7 @@ class PosController extends Controller
             'coupon_discount' => $totalCouponAmount,
             'shipping_cost' => $request->shipping_cost,
             'sale_status' => 1,
-            'payment_status' => $request->payment_statuss  ? $request->payment_statuss : $request->payment_status,
+            'payment_status' => 1,
             'payment_method' => $request->payment_method ?? 'Cash',
             'document_id' => $documentId,
             'paid_amount' => $request->paid_amount,
@@ -815,6 +826,7 @@ class PosController extends Controller
         ]);
 
         ProductSaleRepository::storeByRequest($request, $sale);
+
         if ($request->draft_id) {
             $draft = Sale::find($request->draft_id);
             if (feature('purchases')) {
@@ -829,5 +841,92 @@ class PosController extends Controller
         $wallet = $user->wallet ??  WalletRepository::store($user);
         WalletRepository::credit($wallet, $grandTotal);
         return $sale;
+    }
+
+    public function callbackTara(Request $request)
+    {
+        Log::info('Tara Callback Received', [
+            'headers' => $request->headers->all(),
+        ]);
+    
+        $bodyRaw = file_get_contents('php://input');
+        Log::info('Callback Raw Body', ['raw' => $bodyRaw]);
+    
+        $body = json_decode($bodyRaw);
+        $refNo = $request->get('refno') ?? null;
+    
+        Log::info('Callback Parsed Body', [
+            'refno_query' => $refNo,
+            'parsed_body' => $body
+        ]);
+    
+        $status_callback = $body->orderStatus ?? null;
+    
+        if ($refNo == null || $status_callback == null) {
+            $refNo = $body->mchOrderNo ?? null;
+            $status_callback = ($body->orderStatus == 2) ? "SUCCESS" : "FAILED";
+    
+            Log::warning('Refno or Status Missing, Using Fallback Logic', [
+                'refno_new' => $refNo,
+                'status_new' => $status_callback
+            ]);
+        }
+    
+        DB::beginTransaction();
+    
+        try {
+            $sale = SaleRepository::find($refNo);
+    
+            if (!$sale) {
+                Log::error('Sale Not Found', ['refno' => $refNo]);
+                DB::rollBack();
+    
+                return response()->json(['status' => 'SUCCESS']);
+            }
+    
+            Log::info('Sale Found', [
+                'refno' => $refNo,
+                'current_payment_status' => $sale->payment_status,
+                'callback_status' => $status_callback
+            ]);
+    
+            if ($status_callback == "SUCCESS" && ($sale->payment_status != 3)) {
+                $sale->payment_status = 3;
+                Log::info('Payment Marked SUCCESS', ['refno' => $refNo]);
+            } else {
+                $sale->payment_status = 2;
+                Log::info('Payment Marked FAILED', ['refno' => $refNo]);
+            }
+    
+            $sale->save();
+    
+            $cb = new Callback();
+            $cb->original_partner_no = $body->orderNo ?? null;
+            $cb->partner_no = $refNo;
+            $cb->amount = $body->amount ?? null;
+            $cb->fee = $body->fee ?? null;
+            $cb->product_code = $body->productCode ?? null;
+            $cb->nonce_str = $body->nonceStr ?? null;
+            $cb->payed_at = $body->completionTime ?? null;
+            $cb->status = $body->orderStatus ?? null;
+            $cb->save();
+    
+            Log::info('Callback Data Saved', ['callback_id' => $cb->id]);
+    
+            DB::commit();
+    
+            Log::info('Callback Process Completed', ['refno' => $refNo]);
+    
+            return response()->json(['status' => 'SUCCESS']);
+    
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Callback Processing Error', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+    
+            return response()->json(['status' => 'FAILED'], 500);
+        }
     }
 }
