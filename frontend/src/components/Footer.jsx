@@ -264,7 +264,7 @@ const Footer = () => {
           }}
         >
           <p style={{ fontSize: '0.875rem', color: 'rgba(255, 255, 255, 0.6)', margin: 0 }}>
-            © 2025 PT Java Digital Solusindo. All rights reserved.
+            © 2025 PT Langit Karya Utama. All rights reserved.
           </p>
           <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
             <a
