@@ -39,7 +39,7 @@ const BrandStory = () => {
               </span>
             </div>
             <h2 className="heading-2" style={{ marginBottom: '1.5rem' }}>
-              PT Java Digital Solusindo
+              PT Langit Karya Utama
             </h2>
             <p className="body-large" style={{ color: 'var(--text-secondary)', marginBottom: '2rem' }}>
               Perusahaan teknologi yang memiliki visi untuk mendukung UMKM di Indonesia dengan
