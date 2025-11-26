@@ -1,4 +1,4 @@
-@extends('layout.auth')
+@extends('layout.auth-modern')
 @section('title', __('signin'))
 @section('content')
     <style>
