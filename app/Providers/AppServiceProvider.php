@@ -19,10 +19,37 @@ class AppServiceProvider extends ServiceProvider
     public function shareViewData(): void
     {
         view()->composer('*', function ($view) {
-            $general_settings = \App\Models\GeneralSetting::first();
-            $seederRun = false; // For development, assume seeder is run
-            $view->with('general_settings', $general_settings);
-            $view->with('seederRun', $seederRun);
+            try {
+                $general_settings = \App\Models\GeneralSetting::first();
+                if (!$general_settings) {
+                    // Create dummy settings if not exists
+                    $general_settings = (object) [
+                        'site_title' => 'POD ADMIN',
+                        'logo' => (object) ['file' => asset('/logo/logo.png')],
+                        'smallLogo' => (object) ['file' => asset('/logo/small_logo.png')],
+                        'favicon' => (object) ['file' => asset('/logo/small_logo.png')],
+                        'dark_mode' => 0
+                    ];
+                }
+                $seederRun = false; // For development, assume seeder is run
+                $storageLink = true; // Assume storage link exists
+                
+                $view->with('general_settings', $general_settings);
+                $view->with('seederRun', $seederRun);
+                $view->with('storageLink', $storageLink);
+            } catch (\Exception $e) {
+                // If database not ready, use defaults
+                $general_settings = (object) [
+                    'site_title' => 'POD ADMIN',
+                    'logo' => (object) ['file' => asset('/logo/logo.png')],
+                    'smallLogo' => (object) ['file' => asset('/logo/small_logo.png')],
+                    'favicon' => (object) ['file' => asset('/logo/small_logo.png')],
+                    'dark_mode' => 0
+                ];
+                $view->with('general_settings', $general_settings);
+                $view->with('seederRun', false);
+                $view->with('storageLink', true);
+            }
         });
     }
 
