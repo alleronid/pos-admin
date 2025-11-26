@@ -32,6 +32,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Schema::defaultStringLength(191);
+        
+        // Share data with all views
+        $this->shareViewData();
+        
         // Allow access to signin, signup, and static assets even without installation
         $allowedPaths = ['install', 'install/*', 'signin', 'signin/*', 'signup', 'signup/*', 'assets/*', 'icons/*', 'logo/*', 'public/*'];
         $isAllowed = false;
