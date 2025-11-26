@@ -4,16 +4,10 @@
 <div class="app-sidebar">
     <div class="scrollbar-sidebar">
         <div class="branding-logo">
-            @if ($general_settings->dark_mode == 0)
-                <img src="{{ $general_settings->logo->file ?? asset('/logo/logo.png') }}" alt="">
-            @elseif ($general_settings->dark_mode == 1 && config('app.env') == 'local')
-                <img src="{{ asset('/logo/dark-logo.png') }}" alt="">
-            @endif
+            <img src="{{ asset('/mirra/logo.png') }}" alt="Mirra - Teman Setia Usaha Anda">
         </div>
         <div class="branding-logo-forMobile">
-            <a href="{{ route('root') }}"><img
-                    src="{{ isset($general_settings->smallLogo->file) && $general_settings->smallLogo->file ? $general_settings->smallLogo->file : asset('/logo/small_logo.png') }}"
-                    alt=""></a>
+            <a href="{{ route('root') }}"><img src="{{ asset('/mirra/favicon.png') }}" alt="Mirra"></a>
         </div>
         <div class="app-sidebar-inner">
             <ul class="vertical-nav-menu">
