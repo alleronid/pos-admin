@@ -32,7 +32,7 @@ class AppServiceProvider extends ServiceProvider
                     ];
                 }
                 $seederRun = false; // For development, assume seeder is run
-                $storageLink = true; // Assume storage link exists
+                $storageLink = false; // Hide storage link warning for now
                 
                 $view->with('general_settings', $general_settings);
                 $view->with('seederRun', $seederRun);
