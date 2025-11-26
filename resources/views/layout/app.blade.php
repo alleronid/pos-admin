@@ -46,9 +46,9 @@
 </head>
 <style>
     :root {
-        --theme-color: {{ $mainShop?->shopCategory?->primary_color ?? '#37BDF2' }};
-        --theme-secondary-color: {{ $mainShop?->shopCategory?->secondary_color ?? '#eaf7fc' }};
-        --bs-btn-bg: {{ $mainShop?->shopCategory?->primary_color ?? '#37BDF2' }};
+        --theme-color: #0047AB;
+        --theme-secondary-color: #FFF8DC;
+        --bs-btn-bg: #FFD700;
     }
 
     .has-passport.fixed-header .app-header {
