@@ -15,6 +15,16 @@ class AppServiceProvider extends ServiceProvider
     {
         //
     }
+    
+    public function shareViewData(): void
+    {
+        view()->composer('*', function ($view) {
+            $general_settings = \App\Models\GeneralSetting::first();
+            $seederRun = false; // For development, assume seeder is run
+            $view->with('general_settings', $general_settings);
+            $view->with('seederRun', $seederRun);
+        });
+    }
 
     /**
      * Bootstrap any application services.
