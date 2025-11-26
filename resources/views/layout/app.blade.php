@@ -41,6 +41,8 @@
     <!--Responsive--Css-Link -->
     <link rel="stylesheet" href="{{ asset('assets/css/responsive.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/daterangepicker.css') }}">
+    <!-- Mirra Theme -->
+    <link rel="stylesheet" href="{{ asset('assets/css/mirra-theme.css') }}">
 </head>
 <style>
     :root {
