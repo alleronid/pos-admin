@@ -24,6 +24,12 @@ class RouteServiceProvider extends ServiceProvider
             Route::get('/', function(){
                 return redirect()->route('installer.welcome.index');
             });
+            
+            // Auth routes for preview
+            Route::get('/signin', [\App\Http\Controllers\Auth\SignInController::class, 'index'])->name('signin.index');
+            Route::post('/signin', [\App\Http\Controllers\Auth\SignInController::class, 'signin'])->name('signin.request');
+            Route::get('/signup', [\App\Http\Controllers\Auth\SignUpController::class, 'index'])->name('signup.index');
+            Route::post('/signup', [\App\Http\Controllers\Auth\SignUpController::class, 'signup'])->name('signup.request');
        });
     }
 }
