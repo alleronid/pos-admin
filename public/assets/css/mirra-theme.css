@@ -1,0 +1,344 @@
+/* 
+ * Mirra Theme CSS
+ * Color Palette: Royal Blue (#0047AB) & Golden Yellow (#FFD700)
+ * Brand: TEMAN SETIA USAHA ANDA
+ */
+
+:root {
+    /* Mirra Primary Colors */
+    --mirra-blue: #0047AB;
+    --mirra-blue-dark: #003D99;
+    --mirra-blue-light: #0052CC;
+    --mirra-yellow: #FFD700;
+    --mirra-yellow-dark: #FFC700;
+    --mirra-yellow-light: #FFE44D;
+    
+    /* Override theme colors */
+    --theme-color: #0047AB;
+    --theme-secondary-color: #FFF8DC;
+    --bs-btn-bg: #FFD700;
+    --bs-primary: #0047AB;
+    --bs-secondary: #FFD700;
+    
+    /* Neutral Colors */
+    --mirra-white: #FFFFFF;
+    --mirra-light-gray: #F8F9FA;
+    --mirra-gray: #E2E8F0;
+    --mirra-dark-gray: #64748B;
+    --mirra-text: #334155;
+}
+
+/* Global Button Styles */
+.common-btn, .btn-primary {
+    background: linear-gradient(135deg, var(--mirra-yellow) 0%, var(--mirra-yellow-dark) 100%) !important;
+    border: none !important;
+    color: var(--mirra-blue) !important;
+    font-weight: 600 !important;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3) !important;
+    transition: all 0.3s ease !important;
+}
+
+.common-btn:hover, .btn-primary:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5) !important;
+}
+
+/* Sidebar Branding */
+.branding-logo {
+    text-align: center;
+    padding: 20px;
+    border-bottom: 2px solid var(--mirra-yellow);
+    background: linear-gradient(135deg, var(--mirra-blue) 0%, var(--mirra-blue-dark) 100%);
+}
+
+.branding-logo img {
+    height: 60px !important;
+    width: auto;
+}
+
+/* Sidebar Styling */
+.app-sidebar {
+    background: var(--mirra-white) !important;
+    border-right: 1px solid var(--mirra-gray);
+}
+
+.app-sidebar .scrollbar-sidebar {
+    background: var(--mirra-white);
+}
+
+/* Menu Items */
+.menu {
+    color: var(--mirra-text) !important;
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+}
+
+.menu:hover {
+    background: rgba(255, 215, 0, 0.1) !important;
+    border-left-color: var(--mirra-yellow);
+    color: var(--mirra-blue) !important;
+}
+
+.menu.active {
+    background: linear-gradient(90deg, rgba(255, 215, 0, 0.15) 0%, rgba(255, 215, 0, 0.05) 100%) !important;
+    border-left: 3px solid var(--mirra-yellow) !important;
+    color: var(--mirra-blue) !important;
+    font-weight: 600;
+}
+
+.subMenu {
+    color: var(--mirra-dark-gray) !important;
+    padding-left: 50px !important;
+    transition: all 0.3s ease;
+}
+
+.subMenu:hover {
+    background: rgba(0, 71, 171, 0.05) !important;
+    color: var(--mirra-blue) !important;
+}
+
+.subMenu.active {
+    background: rgba(255, 215, 0, 0.1) !important;
+    color: var(--mirra-blue) !important;
+    font-weight: 600;
+    border-left: 2px solid var(--mirra-yellow);
+}
+
+/* Header Styling */
+.app-header {
+    background: var(--mirra-white) !important;
+    border-bottom: 2px solid var(--mirra-yellow) !important;
+    box-shadow: 0 2px 8px rgba(0, 71, 171, 0.1) !important;
+}
+
+/* Profile & User Section */
+.profile-content span {
+    color: var(--mirra-blue) !important;
+    font-weight: 600;
+}
+
+.dropdown-menu.profile-item {
+    border: 1px solid var(--mirra-yellow);
+    box-shadow: 0 4px 12px rgba(0, 71, 171, 0.15);
+}
+
+.dropdown-item:hover {
+    background: rgba(255, 215, 0, 0.1) !important;
+    color: var(--mirra-blue) !important;
+}
+
+/* Dashboard Cards */
+.card, .dashboard-card {
+    border: 1px solid var(--mirra-gray);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 71, 171, 0.15);
+}
+
+/* Stats Cards */
+.dashboard-card-text {
+    color: var(--mirra-blue) !important;
+    font-weight: 700;
+}
+
+/* Tables */
+.table {
+    border: 1px solid var(--mirra-gray);
+}
+
+.table thead {
+    background: linear-gradient(135deg, var(--mirra-blue) 0%, var(--mirra-blue-dark) 100%);
+    color: var(--mirra-white) !important;
+}
+
+.table thead th {
+    color: var(--mirra-white) !important;
+    font-weight: 600;
+    border-bottom: 2px solid var(--mirra-yellow);
+}
+
+.table tbody tr:hover {
+    background: rgba(255, 215, 0, 0.05);
+}
+
+/* Badges */
+.badge {
+    font-weight: 600;
+}
+
+.badge-primary {
+    background: var(--mirra-blue) !important;
+    color: var(--mirra-white);
+}
+
+.badge-warning {
+    background: var(--mirra-yellow) !important;
+    color: var(--mirra-blue);
+}
+
+/* Form Inputs */
+.form-control:focus, .form-select:focus {
+    border-color: var(--mirra-yellow) !important;
+    box-shadow: 0 0 0 0.2rem rgba(255, 215, 0, 0.25) !important;
+}
+
+/* Pagination */
+.pagination .page-item.active .page-link {
+    background: var(--mirra-blue) !important;
+    border-color: var(--mirra-blue) !important;
+}
+
+.pagination .page-link:hover {
+    background: var(--mirra-yellow) !important;
+    color: var(--mirra-blue) !important;
+    border-color: var(--mirra-yellow) !important;
+}
+
+/* Footer */
+.app-footer {
+    background: var(--mirra-light-gray);
+    border-top: 2px solid var(--mirra-yellow);
+    color: var(--mirra-text);
+}
+
+/* Sidebar Footer */
+.sideBarfooter .fullbtn {
+    color: var(--mirra-blue) !important;
+    transition: all 0.3s ease;
+}
+
+.sideBarfooter .fullbtn:hover {
+    background: var(--mirra-yellow) !important;
+    color: var(--mirra-blue) !important;
+}
+
+/* Subscription Box */
+.subscription-box {
+    background: linear-gradient(135deg, var(--mirra-yellow) 0%, var(--mirra-yellow-dark) 100%);
+    color: var(--mirra-blue);
+    border: 2px solid var(--mirra-blue);
+    border-radius: 12px;
+    margin: 15px;
+    padding: 15px;
+    font-weight: 600;
+}
+
+/* Theme Toggle Button */
+.theme-change-btn {
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.theme-change-btn:hover {
+    background: rgba(255, 215, 0, 0.1);
+}
+
+/* Notification Badge */
+.badgeButtonBox .notifactionIcon .btn {
+    background: var(--mirra-yellow) !important;
+    color: var(--mirra-blue) !important;
+    border: 1px solid var(--mirra-blue);
+    font-weight: 600;
+}
+
+/* Alert Messages */
+.alert-success {
+    background: rgba(255, 215, 0, 0.1);
+    border-left: 4px solid var(--mirra-yellow);
+    color: var(--mirra-blue);
+}
+
+.alert-danger {
+    border-left: 4px solid #dc3545;
+}
+
+/* Modal Headers */
+.modal-header {
+    background: linear-gradient(135deg, var(--mirra-blue) 0%, var(--mirra-blue-dark) 100%);
+    color: var(--mirra-white);
+    border-bottom: 2px solid var(--mirra-yellow);
+}
+
+/* Loading & Spinners */
+.spinner-border {
+    border-color: var(--mirra-yellow);
+    border-right-color: transparent;
+}
+
+/* Links */
+a {
+    color: var(--mirra-blue);
+    transition: all 0.3s ease;
+}
+
+a:hover {
+    color: var(--mirra-yellow-dark);
+}
+
+/* Dark Mode Adjustments */
+[mode="dark"] {
+    --mirra-white: #1a1a1a;
+    --mirra-light-gray: #2a2a2a;
+    --mirra-gray: #3a3a3a;
+    --mirra-text: #e2e8f0;
+}
+
+[mode="dark"] .app-sidebar {
+    background: #1a1a1a !important;
+    border-right: 1px solid #3a3a3a;
+}
+
+[mode="dark"] .app-header {
+    background: #1a1a1a !important;
+    border-bottom: 2px solid var(--mirra-yellow) !important;
+}
+
+[mode="dark"] .menu {
+    color: #e2e8f0 !important;
+}
+
+[mode="dark"] .branding-logo {
+    background: linear-gradient(135deg, var(--mirra-blue-dark) 0%, #001f4d 100%);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .branding-logo img {
+        height: 50px !important;
+    }
+}
+
+/* Animation Utilities */
+@keyframes mirra-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+.mirra-pulse {
+    animation: mirra-pulse 2s ease-in-out infinite;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--mirra-light-gray);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--mirra-yellow);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--mirra-yellow-dark);
+}
