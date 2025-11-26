@@ -1,4 +1,7 @@
 ./vendor
 .env
 .phpunit.result.cache
-.node_modules
+.node_modules-e 
+# Environment files
+*.env
+*.env.*
