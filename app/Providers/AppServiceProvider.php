@@ -22,7 +22,17 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Schema::defaultStringLength(191);
-        if (!file_exists(base_path('storage/installed')) && !request()->is('install') && !request()->is('install/*')) {
+        // Allow access to signin, signup, and static assets even without installation
+        $allowedPaths = ['install', 'install/*', 'signin', 'signin/*', 'signup', 'signup/*', 'assets/*', 'icons/*', 'logo/*', 'public/*'];
+        $isAllowed = false;
+        foreach ($allowedPaths as $path) {
+            if (request()->is($path)) {
+                $isAllowed = true;
+                break;
+            }
+        }
+        
+        if (!file_exists(base_path('storage/installed')) && !$isAllowed) {
             header("Location: install");
             exit;
         }
