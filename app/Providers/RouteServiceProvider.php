@@ -26,10 +26,12 @@ class RouteServiceProvider extends ServiceProvider
             });
             
             // Auth routes for preview
-            Route::get('/signin', [\App\Http\Controllers\Auth\SignInController::class, 'index'])->name('signin.index');
-            Route::post('/signin', [\App\Http\Controllers\Auth\SignInController::class, 'signin'])->name('signin.request');
-            Route::get('/signup', [\App\Http\Controllers\Auth\SignUpController::class, 'index'])->name('signup.index');
-            Route::post('/signup', [\App\Http\Controllers\Auth\SignUpController::class, 'signup'])->name('signup.request');
+            Route::middleware('web')->group(function() {
+                Route::get('/signin', [\App\Http\Controllers\Auth\SignInController::class, 'index'])->name('signin.index');
+                Route::post('/signin', [\App\Http\Controllers\Auth\SignInController::class, 'signin'])->name('signin.request');
+                Route::get('/signup', [\App\Http\Controllers\Auth\SignUpController::class, 'index'])->name('signup.index');
+                Route::post('/signup', [\App\Http\Controllers\Auth\SignUpController::class, 'signup'])->name('signup.request');
+            });
        });
     }
 }
