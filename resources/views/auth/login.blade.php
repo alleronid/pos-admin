@@ -2,34 +2,34 @@
 @section('title', __('signin'))
 @section('content')
     <style>
-        .modern-login-container {
+        .mirra-login-container {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0047AB 0%, #003D99 50%, #FFD700 100%);
             position: relative;
             overflow: hidden;
         }
 
-        .modern-login-container::before {
+        .mirra-login-container::before {
             content: '';
             position: absolute;
             width: 500px;
             height: 500px;
-            background: rgba(255, 255, 255, 0.1);
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.2) 0%, transparent 70%);
             border-radius: 50%;
             top: -250px;
             right: -100px;
             animation: float 6s ease-in-out infinite;
         }
 
-        .modern-login-container::after {
+        .mirra-login-container::after {
             content: '';
             position: absolute;
             width: 400px;
             height: 400px;
-            background: rgba(255, 255, 255, 0.1);
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.15) 0%, transparent 70%);
             border-radius: 50%;
             bottom: -200px;
             left: -100px;
@@ -37,17 +37,17 @@
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-20px) scale(1.05); }
         }
 
-        .glass-card {
-            background: rgba(255, 255, 255, 0.95);
+        .mirra-glass-card {
+            background: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(10px);
             border-radius: 24px;
             padding: 48px;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 8px 32px 0 rgba(0, 71, 171, 0.3), 0 0 0 1px rgba(255, 215, 0, 0.2);
+            border: 1px solid rgba(255, 215, 0, 0.3);
             max-width: 480px;
             width: 100%;
             position: relative;
@@ -66,49 +66,49 @@
             }
         }
 
-        .logo-modern {
+        .mirra-logo {
             text-align: center;
             margin-bottom: 32px;
         }
 
-        .logo-modern img {
-            max-height: 60px;
+        .mirra-logo img {
+            max-height: 80px;
             width: auto;
         }
 
-        .welcome-text {
+        .mirra-welcome-text {
             text-align: center;
             margin-bottom: 40px;
         }
 
-        .welcome-text h1 {
+        .mirra-welcome-text h1 {
             font-size: 32px;
             font-weight: 700;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0047AB 0%, #FFD700 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 8px;
         }
 
-        .welcome-text p {
+        .mirra-welcome-text p {
             color: #64748b;
             font-size: 16px;
             margin: 0;
         }
 
-        .modern-form-group {
+        .mirra-form-group {
             margin-bottom: 24px;
         }
 
-        .modern-form-group label {
+        .mirra-form-group label {
             display: block;
             font-weight: 600;
-            color: #334155;
+            color: #0047AB;
             margin-bottom: 8px;
             font-size: 14px;
         }
 
-        .modern-input {
+        .mirra-input {
             width: 100%;
             padding: 14px 16px;
             border: 2px solid #e2e8f0;
@@ -118,10 +118,10 @@
             background: white;
         }
 
-        .modern-input:focus {
+        .mirra-input:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+            border-color: #FFD700;
+            box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.2);
         }
 
         .password-wrapper {
@@ -139,30 +139,31 @@
         }
 
         .password-toggle:hover {
-            color: #667eea;
+            color: #FFD700;
         }
 
-        .modern-btn {
+        .mirra-btn {
             width: 100%;
             padding: 16px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #FFD700 0%, #FFC700 100%);
             border: none;
             border-radius: 12px;
-            color: white;
-            font-weight: 600;
+            color: #0047AB;
+            font-weight: 700;
             font-size: 16px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px 0 rgba(102, 126, 234, 0.4);
+            box-shadow: 0 4px 15px 0 rgba(255, 215, 0, 0.4);
             margin-top: 8px;
         }
 
-        .modern-btn:hover {
+        .mirra-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px 0 rgba(102, 126, 234, 0.6);
+            box-shadow: 0 6px 20px 0 rgba(255, 215, 0, 0.6);
+            background: linear-gradient(135deg, #FFC700 0%, #FFB700 100%);
         }
 
-        .modern-btn:active {
+        .mirra-btn:active {
             transform: translateY(0);
         }
 
@@ -174,14 +175,14 @@
         }
 
         .signup-link a {
-            color: #667eea;
+            color: #0047AB;
             font-weight: 600;
             text-decoration: none;
             transition: color 0.3s;
         }
 
         .signup-link a:hover {
-            color: #764ba2;
+            color: #FFD700;
         }
 
         .demo-buttons {
@@ -195,7 +196,7 @@
             background: white;
             border: 2px solid #e2e8f0;
             border-radius: 8px;
-            color: #334155;
+            color: #0047AB;
             font-size: 13px;
             font-weight: 600;
             cursor: pointer;
@@ -204,8 +205,9 @@
         }
 
         .demo-btn:hover {
-            border-color: #667eea;
-            color: #667eea;
+            border-color: #FFD700;
+            background: rgba(255, 215, 0, 0.1);
+            color: #0047AB;
             transform: translateY(-2px);
         }
 
@@ -220,51 +222,64 @@
             top: 20px;
             right: 20px;
             padding: 6px 12px;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 215, 0, 0.9);
             border-radius: 20px;
             font-size: 12px;
             font-weight: 600;
-            color: #667eea;
+            color: #0047AB;
+            box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+        }
+
+        .tagline {
+            text-align: center;
+            color: #0047AB;
+            font-size: 13px;
+            font-weight: 600;
+            margin-top: -20px;
+            margin-bottom: 24px;
+            letter-spacing: 0.5px;
         }
     </style>
 
-    <div class="modern-login-container">
+    <div class="mirra-login-container">
         <span class="version-badge">{{ config('app.app_version', 'v1.0') }}</span>
         
-        <div class="glass-card">
+        <div class="mirra-glass-card">
             <form action="{{ route('signin.request') }}" method="POST">
                 @csrf
                 
-                <div class="logo-modern">
-                    <img src="{{ $general_settings->logo->file ?? asset('/logo/logo.png') }}" alt="Logo">
+                <div class="mirra-logo">
+                    <img src="{{ asset('/mirra/logo.png') }}" alt="Mirra Logo">
                 </div>
 
-                <div class="welcome-text">
-                    <h1>Welcome Back!</h1>
-                    <p>Sign in to continue to {{ isset($general_settings->site_title) && $general_settings->site_title ? $general_settings->site_title : 'Ready POS' }}</p>
+                <div class="tagline">TEMAN SETIA USAHA ANDA</div>
+
+                <div class="mirra-welcome-text">
+                    <h1>Selamat Datang!</h1>
+                    <p>Masuk ke dashboard Mirra Anda</p>
                 </div>
 
-                <div class="modern-form-group">
-                    <label>Email Address</label>
+                <div class="mirra-form-group">
+                    <label>Email</label>
                     <input type="email" 
                            name="email" 
                            id="email" 
-                           class="modern-input" 
-                           placeholder="you@example.com"
+                           class="mirra-input" 
+                           placeholder="nama@email.com"
                            required>
                     @error('email')
                         <div class="error-message">{{ $message }}</div>
                     @enderror
                 </div>
 
-                <div class="modern-form-group">
+                <div class="mirra-form-group">
                     <label>Password</label>
                     <div class="password-wrapper">
                         <input type="password" 
                                name="password" 
                                id="password" 
-                               class="modern-input" 
-                               placeholder="Enter your password"
+                               class="mirra-input" 
+                               placeholder="Masukkan password Anda"
                                required>
                         <span class="password-toggle" onclick="togglePassword()">
                             <i class="far fa-eye" id="toggleIcon"></i>
@@ -275,24 +290,24 @@
                     @enderror
                 </div>
 
-                <button type="submit" class="modern-btn">Sign In</button>
+                <button type="submit" class="mirra-btn">Masuk</button>
 
                 <div class="signup-link">
-                    Don't have an account? <a href="{{ route('signup.index') }}">Sign Up</a>
+                    Belum punya akun? <a href="{{ route('signup.index') }}">Daftar Sekarang</a>
                 </div>
 
                 @if (app()->environment('local'))
                     <div class="demo-buttons">
-                        <div style="text-align: center; color: #64748b; font-size: 13px; margin-bottom: 16px; font-weight: 600;">
-                            Quick Demo Access
+                        <div style="text-align: center; color: #0047AB; font-size: 13px; margin-bottom: 16px; font-weight: 600;">
+                            Akses Demo Cepat
                         </div>
                         <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;">
                             <button type="button" class="demo-btn" id="super_admin">Super Admin</button>
                             <button type="button" class="demo-btn" id="admin">Admin</button>
-                            <button type="button" class="demo-btn" id="groceryShop">Grocery</button>
-                            <button type="button" class="demo-btn" id="pharmacyShop">Pharmacy</button>
-                            <button type="button" class="demo-btn" id="mobileShop">Electronics</button>
-                            <button type="button" class="demo-btn" id="restaurant">Restaurant</button>
+                            <button type="button" class="demo-btn" id="groceryShop">Toko</button>
+                            <button type="button" class="demo-btn" id="pharmacyShop">Apotek</button>
+                            <button type="button" class="demo-btn" id="mobileShop">Elektronik</button>
+                            <button type="button" class="demo-btn" id="restaurant">Restoran</button>
                         </div>
                     </div>
                 @endif

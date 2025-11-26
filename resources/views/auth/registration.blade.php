@@ -2,35 +2,35 @@
 @section('title', __('signup'))
 @section('content')
     <style>
-        .modern-signup-container {
+        .mirra-signup-container {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #FFD700 0%, #FFC700 50%, #0047AB 100%);
             position: relative;
             overflow: hidden;
             padding: 40px 20px;
         }
 
-        .modern-signup-container::before {
+        .mirra-signup-container::before {
             content: '';
             position: absolute;
             width: 600px;
             height: 600px;
-            background: rgba(255, 255, 255, 0.1);
+            background: radial-gradient(circle, rgba(0, 71, 171, 0.15) 0%, transparent 70%);
             border-radius: 50%;
             top: -300px;
             left: -200px;
             animation: float 7s ease-in-out infinite;
         }
 
-        .modern-signup-container::after {
+        .mirra-signup-container::after {
             content: '';
             position: absolute;
             width: 450px;
             height: 450px;
-            background: rgba(255, 255, 255, 0.1);
+            background: radial-gradient(circle, rgba(0, 71, 171, 0.1) 0%, transparent 70%);
             border-radius: 50%;
             bottom: -225px;
             right: -150px;
@@ -42,13 +42,13 @@
             50% { transform: translateY(-30px) rotate(5deg); }
         }
 
-        .glass-card-signup {
-            background: rgba(255, 255, 255, 0.95);
+        .mirra-glass-card-signup {
+            background: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(10px);
             border-radius: 24px;
             padding: 48px;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 8px 32px 0 rgba(0, 71, 171, 0.3), 0 0 0 1px rgba(255, 215, 0, 0.3);
+            border: 1px solid rgba(255, 215, 0, 0.4);
             max-width: 520px;
             width: 100%;
             position: relative;
@@ -69,49 +69,49 @@
             }
         }
 
-        .logo-modern {
+        .mirra-logo-signup {
             text-align: center;
-            margin-bottom: 32px;
+            margin-bottom: 24px;
         }
 
-        .logo-modern img {
-            max-height: 60px;
+        .mirra-logo-signup img {
+            max-height: 70px;
             width: auto;
         }
 
-        .welcome-text-signup {
+        .mirra-welcome-text-signup {
             text-align: center;
             margin-bottom: 32px;
         }
 
-        .welcome-text-signup h1 {
+        .mirra-welcome-text-signup h1 {
             font-size: 32px;
             font-weight: 700;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #FFD700 0%, #0047AB 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 8px;
         }
 
-        .welcome-text-signup p {
+        .mirra-welcome-text-signup p {
             color: #64748b;
             font-size: 15px;
             margin: 0;
         }
 
-        .modern-form-group {
+        .mirra-form-group {
             margin-bottom: 20px;
         }
 
-        .modern-form-group label {
+        .mirra-form-group label {
             display: block;
             font-weight: 600;
-            color: #334155;
+            color: #0047AB;
             margin-bottom: 8px;
             font-size: 14px;
         }
 
-        .modern-input, .modern-select {
+        .mirra-input, .mirra-select {
             width: 100%;
             padding: 12px 16px;
             border: 2px solid #e2e8f0;
@@ -121,10 +121,10 @@
             background: white;
         }
 
-        .modern-input:focus, .modern-select:focus {
+        .mirra-input:focus, .mirra-select:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+            border-color: #FFD700;
+            box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.2);
         }
 
         .password-wrapper {
@@ -142,7 +142,7 @@
         }
 
         .password-toggle:hover {
-            color: #667eea;
+            color: #FFD700;
         }
 
         .file-upload-wrapper {
@@ -155,20 +155,20 @@
         .file-upload-btn {
             width: 100%;
             padding: 12px 16px;
-            border: 2px dashed #e2e8f0;
+            border: 2px dashed #FFD700;
             border-radius: 12px;
-            background: #f8fafc;
-            color: #64748b;
+            background: rgba(255, 215, 0, 0.05);
+            color: #0047AB;
             cursor: pointer;
             transition: all 0.3s;
             text-align: center;
             font-size: 14px;
+            font-weight: 600;
         }
 
         .file-upload-btn:hover {
-            border-color: #667eea;
-            background: rgba(102, 126, 234, 0.05);
-            color: #667eea;
+            border-color: #0047AB;
+            background: rgba(0, 71, 171, 0.05);
         }
 
         .file-upload-wrapper input[type=file] {
@@ -181,24 +181,25 @@
             cursor: pointer;
         }
 
-        .modern-btn-signup {
+        .mirra-btn-signup {
             width: 100%;
             padding: 16px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0047AB 0%, #003D99 100%);
             border: none;
             border-radius: 12px;
-            color: white;
-            font-weight: 600;
+            color: #FFD700;
+            font-weight: 700;
             font-size: 16px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px 0 rgba(102, 126, 234, 0.4);
+            box-shadow: 0 4px 15px 0 rgba(0, 71, 171, 0.4);
             margin-top: 8px;
         }
 
-        .modern-btn-signup:hover {
+        .mirra-btn-signup:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px 0 rgba(102, 126, 234, 0.6);
+            box-shadow: 0 6px 20px 0 rgba(0, 71, 171, 0.6);
+            background: linear-gradient(135deg, #003D99 0%, #002D79 100%);
         }
 
         .signin-link {
@@ -209,14 +210,14 @@
         }
 
         .signin-link a {
-            color: #667eea;
+            color: #0047AB;
             font-weight: 600;
             text-decoration: none;
             transition: color 0.3s;
         }
 
         .signin-link a:hover {
-            color: #764ba2;
+            color: #FFD700;
         }
 
         .error-message {
@@ -226,138 +227,150 @@
         }
 
         /* Custom scrollbar */
-        .glass-card-signup::-webkit-scrollbar {
+        .mirra-glass-card-signup::-webkit-scrollbar {
             width: 6px;
         }
 
-        .glass-card-signup::-webkit-scrollbar-track {
+        .mirra-glass-card-signup::-webkit-scrollbar-track {
             background: #f1f5f9;
             border-radius: 10px;
         }
 
-        .glass-card-signup::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
+        .mirra-glass-card-signup::-webkit-scrollbar-thumb {
+            background: #FFD700;
             border-radius: 10px;
         }
 
-        .glass-card-signup::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
+        .mirra-glass-card-signup::-webkit-scrollbar-thumb:hover {
+            background: #FFC700;
+        }
+
+        .tagline-signup {
+            text-align: center;
+            color: #0047AB;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: -16px;
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
         }
     </style>
 
-    <div class=\"modern-signup-container\">
-        <div class=\"glass-card-signup\">
-            <form action=\"{{ route('signup.request') }}\" method=\"POST\" enctype=\"multipart/form-data\">
+    <div class="mirra-signup-container">
+        <div class="mirra-glass-card-signup">
+            <form action="{{ route('signup.request') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 
-                <div class=\"logo-modern\">
-                    <img src=\"{{ $general_settings->logo->file ?? asset('/logo/logo.png') }}\" alt=\"Logo\">
+                <div class="mirra-logo-signup">
+                    <img src="{{ asset('/mirra/logo.png') }}" alt="Mirra Logo">
                 </div>
 
-                <div class=\"welcome-text-signup\">
-                    <h1>Create Account</h1>
-                    <p>Join {{ isset($general_settings->site_title) && $general_settings->site_title ? $general_settings->site_title : 'Ready POS' }} today</p>
+                <div class="tagline-signup">TEMAN SETIA USAHA ANDA</div>
+
+                <div class="mirra-welcome-text-signup">
+                    <h1>Buat Akun Baru</h1>
+                    <p>Bergabung dengan Mirra untuk mengelola usaha Anda</p>
                 </div>
 
-                <div class=\"modern-form-group\">
-                    <label>Full Name</label>
-                    <input type=\"text\" 
-                           name=\"name\" 
-                           class=\"modern-input\" 
-                           placeholder=\"Enter your full name\"
+                <div class="mirra-form-group">
+                    <label>Nama Lengkap</label>
+                    <input type="text" 
+                           name="name" 
+                           class="mirra-input" 
+                           placeholder="Masukkan nama lengkap"
                            required>
                     @error('name')
-                        <div class=\"error-message\">{{ $message }}</div>
+                        <div class="error-message">{{ $message }}</div>
                     @enderror
                 </div>
 
-                <div class=\"modern-form-group\">
-                    <label>Email Address</label>
-                    <input type=\"email\" 
-                           name=\"email\" 
-                           class=\"modern-input\" 
-                           placeholder=\"you@example.com\"
+                <div class="mirra-form-group">
+                    <label>Email</label>
+                    <input type="email" 
+                           name="email" 
+                           class="mirra-input" 
+                           placeholder="nama@email.com"
                            required>
                     @error('email')
-                        <div class=\"error-message\">{{ $message }}</div>
+                        <div class="error-message">{{ $message }}</div>
                     @enderror
                 </div>
 
-                <div class=\"modern-form-group\">
+                <div class="mirra-form-group">
                     <label>Password</label>
-                    <div class=\"password-wrapper\">
-                        <input type=\"password\" 
-                               name=\"password\" 
-                               id=\"password\" 
-                               class=\"modern-input\" 
-                               placeholder=\"Create a strong password\"
+                    <div class="password-wrapper">
+                        <input type="password" 
+                               name="password" 
+                               id="password" 
+                               class="mirra-input" 
+                               placeholder="Buat password yang kuat"
                                required>
-                        <span class=\"password-toggle\" onclick=\"togglePassword()\">
-                            <i class=\"far fa-eye\" id=\"toggleIcon\"></i>
+                        <span class="password-toggle" onclick="togglePassword()">
+                            <i class="far fa-eye" id="toggleIcon"></i>
                         </span>
                     </div>
                     @error('password')
-                        <div class=\"error-message\">{{ $message }}</div>
+                        <div class="error-message">{{ $message }}</div>
                     @enderror
                 </div>
 
-                <div class=\"modern-form-group\">
-                    <label>Shop Name</label>
-                    <input type=\"text\" 
-                           name=\"shop_name\" 
-                           class=\"modern-input\" 
-                           placeholder=\"Your shop name\"
+                <div class="mirra-form-group">
+                    <label>Nama Toko</label>
+                    <input type="text" 
+                           name="shop_name" 
+                           class="mirra-input" 
+                           placeholder="Nama toko atau usaha Anda"
                            required>
                     @error('shop_name')
-                        <div class=\"error-message\">{{ $message }}</div>
+                        <div class="error-message">{{ $message }}</div>
                     @enderror
                 </div>
 
-                <div class=\"modern-form-group\">
-                    <label>Shop Category</label>
-                    <select name=\"shop_category_id\" class=\"modern-select\" required>
-                        <option value=\"\" disabled selected>Select a category</option>
+                <div class="mirra-form-group">
+                    <label>Kategori Toko</label>
+                    <select name="shop_category_id" class="mirra-select" required>
+                        <option value="" disabled selected>Pilih kategori</option>
                         @if (isset($shopCategories) && $shopCategories->isNotEmpty())
                             @foreach ($shopCategories as $shopCategory)
-                                <option value=\"{{ $shopCategory->id }}\">{{ $shopCategory->name }}</option>
+                                <option value="{{ $shopCategory->id }}">{{ $shopCategory->name }}</option>
                             @endforeach
                         @endif
                     </select>
                     @error('shop_category_id')
-                        <div class=\"error-message\">{{ $message }}</div>
+                        <div class="error-message">{{ $message }}</div>
                     @enderror
                 </div>
 
-                <div class=\"modern-form-group\">
-                    <label>Shop Logo <span style=\"color: #94a3b8; font-weight: 400;\">(Optional)</span></label>
-                    <div class=\"file-upload-wrapper\">
-                        <div class=\"file-upload-btn\">
-                            <i class=\"fas fa-cloud-upload-alt\"></i> Choose File
+                <div class="mirra-form-group">
+                    <label>Logo Toko <span style="color: #94a3b8; font-weight: 400;">(Opsional)</span></label>
+                    <div class="file-upload-wrapper">
+                        <div class="file-upload-btn">
+                            <i class="fas fa-cloud-upload-alt"></i> Pilih File Logo
                         </div>
-                        <input type=\"file\" name=\"logo\" accept=\"image/*\">
+                        <input type="file" name="logo" accept="image/*">
                     </div>
                     @error('logo')
-                        <div class=\"error-message\">{{ $message }}</div>
+                        <div class="error-message">{{ $message }}</div>
                     @enderror
                 </div>
 
-                <div class=\"modern-form-group\">
-                    <label>Shop Favicon <span style=\"color: #94a3b8; font-weight: 400;\">(Optional)</span></label>
-                    <div class=\"file-upload-wrapper\">
-                        <div class=\"file-upload-btn\">
-                            <i class=\"fas fa-cloud-upload-alt\"></i> Choose File
+                <div class="mirra-form-group">
+                    <label>Favicon Toko <span style="color: #94a3b8; font-weight: 400;">(Opsional)</span></label>
+                    <div class="file-upload-wrapper">
+                        <div class="file-upload-btn">
+                            <i class="fas fa-cloud-upload-alt"></i> Pilih File Favicon
                         </div>
-                        <input type=\"file\" name=\"favicon\" accept=\"image/*\">
+                        <input type="file" name="favicon" accept="image/*">
                     </div>
                     @error('favicon')
-                        <div class=\"error-message\">{{ $message }}</div>
+                        <div class="error-message">{{ $message }}</div>
                     @enderror
                 </div>
 
-                <button type=\"submit\" class=\"modern-btn-signup\">Sign Up</button>
+                <button type="submit" class="mirra-btn-signup">Daftar Sekarang</button>
 
-                <div class=\"signin-link\">
-                    Already have an account? <a href=\"{{ route('signin.index') }}\">Sign In</a>
+                <div class="signin-link">
+                    Sudah punya akun? <a href="{{ route('signin.index') }}">Masuk</a>
                 </div>
             </form>
         </div>
