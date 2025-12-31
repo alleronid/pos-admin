@@ -89,6 +89,12 @@
                                                         <div class="modal-body">
                                                             <div class="row">
                                                                 <div class="col-md-12 mb-3">
+                                                                    <x-inputGroup name="mid" title="mid"
+                                                                        type="text" :required="false"
+                                                                        value="{{ $shop->mid }}"
+                                                                        placeholder="Merchant ID" />
+                                                                </div>
+                                                                <div class="col-md-12 mb-3">
                                                                     <x-inputGroup name="shop_name" title="name"
                                                                         type="text" :required="true"
                                                                         value="{{ $shop->name }}"

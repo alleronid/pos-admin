@@ -5,7 +5,7 @@ namespace App\Repositories;
 use Abedin\Maker\Repositories\Repository;
 use App\Models\RecoveryPasswordCode;
 use App\Models\User;
-use Keygen\Keygen;
+use Illuminate\Support\Str;
 
 class VerificationRepository extends Repository
 {
@@ -20,12 +20,13 @@ class VerificationRepository extends Repository
             'user_id' => $user->id,
             'email' => $user->email,
             'code' => random_int(100000, 999999),
+            'token' => Str::random(64),
         ]);
     }
 
     public static function updateByRequest(RecoveryPasswordCode $recoveryPasswordCode): RecoveryPasswordCode
     {
-        $token = Keygen::token(64)->generate();
+        $token = Str::random(64);
         self::update($recoveryPasswordCode, [
             'token' => $token
         ]);

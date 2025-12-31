@@ -1,122 +1,526 @@
-@extends('layout.auth')
+@extends('layout.auth-modern')
 @section('title', __('signin'))
 @section('content')
     <style>
-        .version-text {
+        .mirra-login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0047AB 0%, #003D99 50%, #FFD700 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mirra-login-container::before {
+            content: '';
             position: absolute;
-            right: 10px;
-            font-size: 15px;
-            top: 10px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            top: -250px;
+            right: -100px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .mirra-login-container::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            bottom: -200px;
+            left: -100px;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-20px) scale(1.05); }
+        }
+
+        .mirra-glass-card {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 48px;
+            box-shadow: 0 8px 32px 0 rgba(0, 71, 171, 0.3), 0 0 0 1px rgba(255, 215, 0, 0.2);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            max-width: 480px;
+            width: 100%;
+            position: relative;
+            z-index: 10;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .mirra-logo {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .mirra-logo img {
+            max-height: 80px;
+            width: auto;
+        }
+
+        .mirra-welcome-text {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .mirra-welcome-text h1 {
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #0047AB 0%, #FFD700 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+
+        .mirra-welcome-text p {
+            color: #64748b;
+            font-size: 16px;
+            margin: 0;
+        }
+
+        .mirra-form-group {
+            margin-bottom: 24px;
+        }
+
+        .mirra-form-group label {
+            display: block;
             font-weight: 600;
-            color: #3bb2fb;
-            padding: 0 5px;
-            background-color: #3bb2fb36;
-            margin-right: 15px;
-            border-radius: 5px;
+            color: #0047AB;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .mirra-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .mirra-input:focus {
+            outline: none;
+            border-color: #FFD700;
+            box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.2);
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #94a3b8;
+            transition: color 0.3s;
+        }
+
+        .password-toggle:hover {
+            color: #FFD700;
+        }
+
+        .mirra-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFC700 100%);
+            border: none;
+            border-radius: 12px;
+            color: #0047AB;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px 0 rgba(255, 215, 0, 0.4);
+            margin-top: 8px;
+        }
+
+        .mirra-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px 0 rgba(255, 215, 0, 0.6);
+            background: linear-gradient(135deg, #FFC700 0%, #FFB700 100%);
+        }
+
+        .mirra-btn:active {
+            transform: translateY(0);
+        }
+
+        .signup-link {
+            text-align: center;
+            margin-top: 24px;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .signup-link a {
+            color: #0047AB;
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .signup-link a:hover {
+            color: #FFD700;
+        }
+
+        .demo-buttons {
+            margin-top: 32px;
+            padding-top: 32px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .demo-btn {
+            padding: 10px 20px;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            color: #0047AB;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 4px;
+        }
+
+        .demo-btn:hover {
+            border-color: #FFD700;
+            background: rgba(255, 215, 0, 0.1);
+            color: #0047AB;
+            transform: translateY(-2px);
+        }
+
+        .error-message {
+            color: #ef4444;
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        .version-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 6px 12px;
+            background: rgba(255, 215, 0, 0.9);
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #0047AB;
+            box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+        }
+
+        .tagline {
+            text-align: center;
+            color: #0047AB;
+            font-size: 13px;
+            font-weight: 600;
+            margin-top: -20px;
+            margin-bottom: 24px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Modal Styles */
+        .mirra-modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 100;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .mirra-modal-backdrop.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .mirra-modal {
+            background: white;
+            border-radius: 24px;
+            padding: 32px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .mirra-modal-backdrop.show .mirra-modal {
+            transform: scale(1);
+        }
+
+        .mirra-modal-header {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .mirra-modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #0047AB;
+            margin-bottom: 8px;
+        }
+
+        .mirra-modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .mirra-modal-close:hover {
+            color: #ef4444;
         }
     </style>
-    <form action="{{ route('signin.request') }}" method="POST">
-        <span class="version-text">{{ config('app.app_version') }}</span>
-        @csrf
-        <a href="{{ Route::has('home') ? route('home') : '#' }}">
-            <div class="logo-img text-center">
-                <img src="{{ $general_settings->logo->file ?? asset('/logo/logo.png') }}" alt="">
-            </div>
-        </a>
-        <div class="page-content">
-            <h2 class="pageTitle">{{ __('welcome_to') }} <span
-                    style="color:#3BB2FB">{{ isset($general_settings->site_title) && $general_settings->site_title ? $general_settings->site_title : 'Ready POS' }}</span>
-            </h2>
-            <h1 class="signin-heading">{{ __('sign_in') }}</h1>
-        </div>
 
-        <div class="form-outline form-white mb-3">
-            <label class="mb-2">{{ __('enter_your_email') }}</label>
-            <input type="email" name="email" id="email" class="form-control mb-1" placeholder="{{ __('email') }}">
-            @error('email')
-                <span class="text text-danger" role="alert">
-                    <strong>{{ $message }}</strong>
-                </span>
-            @enderror
-        </div>
+    <div class="mirra-login-container">
+        <span class="version-badge">{{ config('app.app_version', 'v1.0') }}</span>
+        
+        <div class="mirra-glass-card">
+            <form action="{{ route('signin.request') }}" method="POST">
+                @csrf
+                
+                <div class="mirra-logo">
+                    <img src="{{ asset('/mirra/logo.png') }}" alt="Mirra Logo">
+                </div>
 
-        <div class="form-outline form-white mb-3">
-            <label class="mb-2">{{ __('enter_your_assword') }}</label>
-            <div class="position-relative">
-                <input type="password" id="password" name="password" class="form-control mb-1"
-                    placeholder="{{ __('password') }}">
-                <span class="eye" onclick="showHidePassword()">
-                    <i class="far fa-eye fa-eye-slash" id="togglePassword"></i>
-                </span>
-            </div>
-            @error('password')
-                <span class="text text-danger" role="alert">
-                    <strong>{{ $message }}</strong>
-                </span>
-            @enderror
+                <div class="tagline">TEMAN SETIA USAHA ANDA</div>
+
+                <div class="mirra-welcome-text">
+                    <h1>Selamat Datang!</h1>
+                    <p>Masuk ke dashboard Mirra Anda</p>
+                </div>
+
+                <div class="mirra-form-group">
+                    <label>Email</label>
+                    <input type="email" 
+                           name="email" 
+                           id="email" 
+                           class="mirra-input" 
+                           placeholder="nama@email.com"
+                           required>
+                    @error('email')
+                        <div class="error-message">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mirra-form-group">
+                    <label>Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" 
+                               name="password" 
+                               id="password" 
+                               class="mirra-input" 
+                               placeholder="Masukkan password Anda"
+                               required>
+                        <span class="password-toggle" onclick="togglePassword()">
+                            <i class="far fa-eye" id="toggleIcon"></i>
+                        </span>
+                    </div>
+                    @error('password')
+                        <div class="error-message">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <button type="submit" class="mirra-btn">Masuk</button>
+
+                <div class="signup-link">
+                    Belum punya akun? <a href="{{ route('signup.index') }}">Daftar Sekarang</a><br>
+                    Lupa password? <a href="#" id="forgotPasswordLink">Reset di sini</a>
+                </div>
+
+                @if (app()->environment('local'))
+                    <div class="demo-buttons">
+                        <div style="text-align: center; color: #0047AB; font-size: 13px; margin-bottom: 16px; font-weight: 600;">
+                            Akses Demo Cepat
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;">
+                            <button type="button" class="demo-btn" id="super_admin">Super Admin</button>
+                            <button type="button" class="demo-btn" id="admin">Admin</button>
+                            <button type="button" class="demo-btn" id="groceryShop">Toko</button>
+                            <button type="button" class="demo-btn" id="pharmacyShop">Apotek</button>
+                            <button type="button" class="demo-btn" id="mobileShop">Elektronik</button>
+                            <button type="button" class="demo-btn" id="restaurant">Restoran</button>
+                        </div>
+                    </div>
+                @endif
+            </form>
         </div>
-        <button class="btn loginButton" type="submit">{{ __('sign_in') }}</button>
-        <span class="text-center w-100 d-block pt-2">{{ __('register_yourself_as_a_shop_owner') }} <a
-                href="{{ route('signup.index') }}">{{ __('signup') }}</a></span>
-        @if (app()->environment('local'))
-            <div class="row mt-4">
-                <div class="col-md-12">
-                    <div class=" d-flex justify-content-center gap-2 flex-wrap">
-                        <button type="submit" class="btn btn-primary" id="admin">All In One</button>
-                        <button type="submit" class="btn btn-primary" id="groceryShop">Super Shop/Grocery</button>
-                        <button type="submit" class="btn btn-primary" id="pharmacyShop">Pharmacy</button>
-                        <button type="submit" class="btn btn-primary" id="mobileShop">Electronics/Hardware or Mobile
-                            Shop</button>
-                        <button type="submit" class="btn btn-primary" id="restaurant">Restaurant</button>
-                        <button type="submit" class="btn btn-primary" id="super_admin">Super Admin or SAAS</button>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="small text-center mt-2 text-danger">In this above button demo and local purpose
-                    </div>
-                </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div class="mirra-modal-backdrop" id="forgotPasswordModal">
+        <div class="mirra-modal">
+            <button type="button" class="mirra-modal-close" onclick="closeForgotModal()">&times;</button>
+            
+            <div class="mirra-modal-header">
+                <h3 class="mirra-modal-title">Lupa Password?</h3>
+                <p style="color: #64748b; font-size: 14px; margin: 0;">Masukkan email Anda untuk menerima link reset password</p>
             </div>
-        @endif
-    </form>
+
+            <div id="forgot-success" style="display: none; background: #ecfdf5; color: #047857; padding: 12px; border-radius: 8px; font-size: 14px; margin-bottom: 16px;"></div>
+            <div id="forgot-error" style="display: none; background: #fef2f2; color: #b91c1c; padding: 12px; border-radius: 8px; font-size: 14px; margin-bottom: 16px;"></div>
+
+            <form id="forgotPasswordForm">
+                <div class="mirra-form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" class="mirra-input" placeholder="nama@email.com" required>
+                </div>
+                <button type="submit" class="mirra-btn" id="btn-forgot-submit">Kirim Link Reset</button>
+            </form>
+        </div>
+    </div>
 @endsection
+
 @push('scripts')
     <script>
-        $('#super_admin').on('click', function() {
-            $('#email').val('superadmin@example.com');
-            $('#password').val('secret');
-        });
-        $('#admin').on('click', function() {
-            $('#email').val('admin@example.com');
-            $('#password').val('secret');
-        });
-        $('#groceryShop').on('click', function() {
-            $('#email').val('groceryshop@example.com');
-            $('#password').val('secret');
-        });
-        $('#pharmacyShop').on('click', function() {
-            $('#email').val('pharmacy@example.com');
-            $('#password').val('secret');
-        });
-        $('#mobileShop').on('click', function() {
-            $('#email').val('electronics@example.com');
-            $('#password').val('secret');
-        });
-        $('#restaurant').on('click', function() {
-            $('#email').val('restaurant@example.com');
-            $('#password').val('secret');
-        });
-    </script>
+        // Forgot Password Modal Logic
+        const forgotModal = document.getElementById('forgotPasswordModal');
+        const forgotLink = document.getElementById('forgotPasswordLink');
+        const forgotForm = document.getElementById('forgotPasswordForm');
 
-    <script>
-        function showHidePassword() {
-            const toggle = document.getElementById("togglePassword");
-            const password = document.getElementById("password");
+        forgotLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            forgotModal.classList.add('show');
+        });
 
-            // toggle the type attribute
-            const type = password.getAttribute("type") === "password" ? "text" : "password";
-            password.setAttribute("type", type);
-            // toggle the icon
-            toggle.classList.toggle("fa-eye");
+        function closeForgotModal() {
+            forgotModal.classList.remove('show');
+            setTimeout(() => {
+                forgotForm.reset();
+                document.getElementById('forgot-success').style.display = 'none';
+                document.getElementById('forgot-error').style.display = 'none';
+            }, 300);
         }
+
+        forgotModal.addEventListener('click', function(e) {
+            if (e.target === forgotModal) {
+                closeForgotModal();
+            }
+        });
+
+        forgotForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btn-forgot-submit');
+            const originalText = btn.innerText;
+            const successEl = document.getElementById('forgot-success');
+            const errorEl = document.getElementById('forgot-error');
+
+            btn.disabled = true;
+            btn.innerText = 'Mengirim...';
+            successEl.style.display = 'none';
+            errorEl.style.display = 'none';
+
+            try {
+                const formData = new FormData(this);
+                const response = await fetch('/api/forgot/password', {
+                    method: 'POST',
+                    headers: { 'Accept': 'application/json' },
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    successEl.innerText = data.message || 'Link reset password telah dikirim ke email Anda.';
+                    successEl.style.display = 'block';
+                    this.reset();
+                } else {
+                    errorEl.innerText = data.message || data.error || 'Terjadi kesalahan.';
+                    errorEl.style.display = 'block';
+                }
+            } catch (error) {
+                errorEl.innerText = 'Gagal menghubungi server. Periksa koneksi internet Anda.';
+                errorEl.style.display = 'block';
+            } finally {
+                btn.disabled = false;
+                btn.innerText = originalText;
+            }
+        });
+
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleIcon = document.getElementById('toggleIcon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+
+        document.getElementById('super_admin')?.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('email').value = 'superadmin@example.com';
+            document.getElementById('password').value = 'secret';
+        });
+
+        document.getElementById('admin')?.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('email').value = 'admin@example.com';
+            document.getElementById('password').value = 'secret';
+        });
+
+        document.getElementById('groceryShop')?.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('email').value = 'groceryshop@example.com';
+            document.getElementById('password').value = 'secret';
+        });
+
+        document.getElementById('pharmacyShop')?.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('email').value = 'pharmacy@example.com';
+            document.getElementById('password').value = 'secret';
+        });
+
+        document.getElementById('mobileShop')?.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('email').value = 'electronics@example.com';
+            document.getElementById('password').value = 'secret';
+        });
+
+        document.getElementById('restaurant')?.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('email').value = 'restaurant@example.com';
+            document.getElementById('password').value = 'secret';
+        });
     </script>
 @endpush

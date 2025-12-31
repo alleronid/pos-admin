@@ -10,6 +10,9 @@ use App\Models\User;
 
 class ShopRepository extends Repository
 {
+
+    private static $path = '/merchant/shops';
+
     public static function model()
     {
         return Shop::class;
@@ -17,11 +20,45 @@ class ShopRepository extends Repository
 
     public static function storeByRequest(Request $request, User $user)
     {
+        $ktp = null;
+        if ($request->hasFile('ktp')) {
+            $ktp = (new MediaRepository())->updateOrCreateByRequest(
+                $request->ktp,
+                self::$path,
+                'Image'
+            );
+            $ktp = $ktp->id;
+        }
+
+        $npwp = null;
+        if ($request->hasFile('npwp')) {
+            $npwp = (new MediaRepository())->updateOrCreateByRequest(
+                $request->npwp,
+                self::$path,
+                'Image'
+            );
+            $npwp = $npwp->id;
+        }
+
+        $location = null;
+        if ($request->hasFile('merchant_location')) {
+            $location = (new MediaRepository())->updateOrCreateByRequest(
+                $request->merchant_location,
+                self::$path,
+                'Image'
+            );
+            $npwp = $location->id;
+        }
+
         return self::create([
             'user_id' => $user->id,
+            'ktp' => $ktp,
+            'npwp' => $npwp,
+            'merchant_location' => $location,
             'name' => $request->shop_name,
             'shop_category_id' => $request->shop_category_id,
             'status' => Status::INACTIVE->value,
+            'mid' => $request->mid ?? 'MID-' . date("Ymd") . '-' . date("his") . '-' . rand(100, 999),
         ]);
     }
 
@@ -30,6 +67,7 @@ class ShopRepository extends Repository
         return self::update($shop, [
             'name' => $request->shop_name,
             'shop_category_id' => $request->shop_category_id,
+            'mid' => $request->mid ?? 'MID-' . date("Ymd") . '-' . date("his") . '-' . rand(100, 999),
         ]);
     }
 

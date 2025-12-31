@@ -42,6 +42,7 @@ class SendMail extends Mailable
             with: [
                 'name' => $this->user['name'],
                 'code' => $this->code->code,
+                'token' => $this->code->token,
             ],
         );
     }

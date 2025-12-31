@@ -37,6 +37,7 @@ class UserAuthenticationController extends Controller
     public function forgotPassword(Request $request)
     {
         $user = UserRepository::findByEmail($request->email);
+        // print_r($request->email);die();
         if (!$user) {
             return $this->json('Invalid email address!', [], 422);
         }
@@ -65,9 +66,20 @@ class UserAuthenticationController extends Controller
     public function resetPassword(ResetPasswordRequest $request)
     {
         $varificationCode = VerificationRepository::query()->where('token', $request->token)->first();
+        if (!$varificationCode) {
+            return $this->json('Invalid or expired token', [], 422);
+        }
         $user = UserRepository::query()->where('email', $varificationCode->email)->first();
+        if (!$user) {
+            return $this->json('User not found', [], 404);
+        }
         UserRepository::resetPassword($request, $user);
         return $this->json('Your password is changed successfully.');
+    }
+
+    public function showResetForm($token)
+    {
+        return view('auth.reset-password', ['token' => $token]);
     }
 
     public function logout(Request $request)

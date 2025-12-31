@@ -15,6 +15,10 @@
                                 @csrf
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
+                                        <x-inputGroup type="text" title="Mid" name="mid"
+                                            placeholder="Merchant ID" value="" :required="false" />
+                                    </div>
+                                    <div class="col-md-6 mb-3">
                                         <x-inputGroup type="text" title="shop_owner_name" name="name"
                                             placeholder="enter_your_shop_owner_name" value="" :required="true" />
                                     </div>
@@ -43,6 +47,15 @@
                                     </div>
                                     <div class="col-md-4">
                                         <x-fileInputGroup name="shop_favicon" title="shop_favicon" :required="false" />
+                                    </div>
+                                    <div class="col-md-4 mt-3">
+                                        <x-fileInputGroup name="ktp" title="KTP" :required="false" />
+                                    </div>
+                                    <div class="col-md-4 mt-3">
+                                        <x-fileInputGroup name="npwp" title="npwp" :required="false" />
+                                    </div>
+                                    <div class="col-md-4 mt-3">
+                                        <x-fileInputGroup name="merchant_location" title="merchant_shop" :required="false" />
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group mt-3">

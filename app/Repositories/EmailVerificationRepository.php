@@ -6,7 +6,6 @@ use Abedin\Maker\Repositories\Repository;
 use App\Events\MailSendEvent;
 use App\Models\EmailVerification;
 use App\Models\User;
-use Keygen\Keygen;
 use Str;
 
 class EmailVerificationRepository extends Repository
@@ -29,7 +28,7 @@ class EmailVerificationRepository extends Repository
 
     public static function updateByRequest(EmailVerification $emailVerification): EmailVerification
     {
-        $token = Keygen::token(64)->generate();
+        $token = Str::random(64);
         self::update($emailVerification, [
             'token' => $token
         ]);

@@ -3,46 +3,45 @@
 namespace App\Repositories;
 
 use Abedin\Maker\Repositories\Repository;
-use App\Http\Requests\SubscriptionRequest;
+use App\Enums\PaymentGateway;
+use App\Enums\PaymentStatus;
+use App\Enums\SubscriptionRequestStatus;
 use App\Models\Subscription;
+use App\Models\SubscriptionRequest;
+use Keygen\Keygen;
 
-class SubscriptionRepository extends Repository
+class SubscriptionRequestRepository extends Repository
 {
     public static function model()
     {
-        return Subscription::class;
+        return SubscriptionRequest::class;
     }
 
-    public static function storeByRequest(SubscriptionRequest $request)
+    public static function storeByRequest(Subscription $subscription)
     {
         return self::create([
-            'title' => $request->title,
-            'description' => $request->description,
-            'price' => $request->price,
-            'shop_limit' => $request->shop_limit,
-            'product_limit' => $request->product_limit,
-            'recurring_type' => $request->recurring_type,
-            'status' => $request->status,
+            'user_id' => auth()->id(),
+            'subscription_id' => $subscription->id,
+            'payment_status' => PaymentStatus::UNPAID->value,
+            'status' => SubscriptionRequestStatus::PENDING->value,
+            'payment_gateway' => PaymentGateway::STRIPE->value,
         ]);
     }
 
-    public static function updateByRequest(SubscriptionRequest $request, Subscription $subscription)
+    public static function updateByRequest(SubscriptionRequest $subscriptionRequest)
     {
-        return self::update($subscription, [
-            'title' => $request->title,
-            'description' => $request->description,
-            'price' => $request->price,
-            'shop_limit' => $request->shop_limit,
-            'product_limit' => $request->product_limit,
-            'recurring_type' => $request->recurring_type,
-            'status' => $request->status,
+        $transactionId = Keygen::numeric(16)->generate();
+        return self::update($subscriptionRequest, [
+            'payment_status' => PaymentStatus::PAID->value,
+            'status' => SubscriptionRequestStatus::SUCCESS->value,
+            'transaction_id' => $transactionId
         ]);
     }
 
-    public static function statusChanageByRequest(Subscription $subscription, $status)
+    public static function requestFailed(SubscriptionRequest $subscriptionRequest)
     {
-        return self::update($subscription, [
-            'status' => $status,
+        return self::update($subscriptionRequest, [
+            'status' => SubscriptionRequestStatus::FAILED->value,
         ]);
     }
 }

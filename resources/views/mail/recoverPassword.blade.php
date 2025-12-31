@@ -120,11 +120,11 @@
                     <tr>
                         <td bgcolor="#ffffff" align="center"
                             style="padding: 20px 30px 40px 30px; color: #000000; font-family:'Montserrat bold' Helvetica, Arial, sans-serif; font-size: 16px; font-weight:600; line-height: 25px;">
-                            <p>Kindly verify your email to complete your account registration.</p>
+                            <!-- <p>Use the code below to recover your password.</p> -->
                         </td>
                     </tr>
                     <tr>
-                        <td bgcolor="#ffffff" align="left">
+                        <!-- <td bgcolor="#ffffff" align="left">
                             <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                 <tr>
                                     <td bgcolor="#ffffff" align="center" style="padding: 20px 30px 60px 30px;">
@@ -133,14 +133,14 @@
                                                 <td align="center" style="border-radius: 5px;" bgcolor="#000000">
                                                     <div
                                                         style="font-size: 30px; font-family: 'Montserrat Bold'Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; color: #ffffff; text-decoration: none; padding: 10px 55px; border-radius: 2px; display: inline-block;letter-spacing: 10px;">
-                                                        {{ $code }}</div>
+                                                        {{ $code->code }}</div>
                                                 </td>
                                             </tr>
                                         </table>
                                     </td>
                                 </tr>
                             </table>
-                        </td>
+                        </td> -->
                     </tr> <!-- COPY -->
                     <tr>
                         <td bgcolor="#ffffff" align="center"
@@ -151,8 +151,8 @@
                     <tr>
                         <td bgcolor="#ffffff" align="center"
                             style="padding: 20px 30px 20px 30px; color: #666666; font-family:'Montserrat'Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 550; line-height: 25px;">
-                            <p style="margin: 0;"><a href="#" target="_blank"
-                                    style="color: #29ABE2;">https://www.google.com/</a></p>
+                            <p style="margin: 0;"><a href="{{ url('/api/reset/password/'.$token) }}" target="_blank"
+                                    style="color: #29ABE2;">{{ url('/api/reset/password/'.$token) }}</a></p>
                         </td>
                     </tr>
                     <tr>
