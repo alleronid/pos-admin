@@ -20,6 +20,7 @@ use App\Http\Controllers\Api\SaleReturnController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\WalletController;
 use App\Http\Controllers\Api\WareHouseController;
+use App\Http\Controllers\Api\CallbackPaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +37,7 @@ Route::controller(PosController::class)->group(function () {
     Route::any('payment/razorpay/create-order', 'razorpayOrder');
 });
 
+Route::post('/callback', [CallbackPaymentController::class, 'ayo_callback']);
 Route::post('/sign-in', [UserAuthenticationController::class, 'signIn']);
 Route::post('/forgot/password', [UserAuthenticationController::class, 'forgotPassword']);
 Route::post('/check/otp', [UserAuthenticationController::class, 'checkOtp']);
